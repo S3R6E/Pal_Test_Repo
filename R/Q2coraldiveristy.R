@@ -24,6 +24,24 @@ SPT1 <- SPT1 |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = `Major Category`)
 
+data1 <- data1 |>
+  cpce_raw_classif_to_points() |>
+  separate(`Frame image name`,
+           into = c("Drive", "Folder", "Project", "Something", "Site", "Transect", "Photo"),
+           sep = "\\\\"
+  ) |>
+  #filter(`Major Category` == "HC") |>
+  droplevels() |>
+  mutate(cover = count_groupcode / total) |>
+  rename("data_tally_group" = `Raw Data`)
+
+
+data1a <- data1 |> 
+  filter(`Major Category`=="HC") |> 
+  group_by(Photo, Site, Transect) |> 
+  summarise(Richness = length(unique(data_tally_group)))
+
+
 ##transect 2
 SPT2 <- read_csv("../data/primary/Siete Picados_T2.csv")
 
