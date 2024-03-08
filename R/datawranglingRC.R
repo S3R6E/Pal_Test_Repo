@@ -171,6 +171,6 @@ data_rc_cover %>%
 
 data_rc_cover %>% 
   filter(type=="point_machine_classification") %>% 
-  ggplot(aes(y = cover, x = date, colours=site_reef_type, group=site_reef_zone)) %>% 
+  ggplot(aes(y = cover, x = date, colours=site_reef_type, group=site_reef_zone)) +
   geom_line()+
   geom_point()
