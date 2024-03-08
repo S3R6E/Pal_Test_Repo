@@ -41,8 +41,35 @@ SPT2 <- SPT2 |>
   rename("data_tally_group" = `Major Category`)
 
 ## Transect 3
+SPT3 <- read_csv("../data/primary/Siete Picados_T3.csv")
 
+glimpse(SPT3)
+
+SPT3 <- SPT3 |>
+  cpce_classif_to_points() |>
+  separate(`Frame image name`,
+           into = c("Drive", "Folder", "Project", "Something", "Site", "Transect", "Photo"),
+           sep = "\\\\"
+  ) |>
+  filter(`Major Category` == "HC") |>
+  droplevels() |>
+  mutate(cover = count_groupcode / total) |>
+  rename("data_tally_group" = `Major Category`)
 
 ## Transect 4
+SPT4 <- read_csv("../data/primary/Siete Picados_T4.csv")
+
+glimpse(SPT4)
+
+SPT4 <- SPT4 |>
+  cpce_classif_to_points() |>
+  separate(`Frame image name`,
+           into = c("Drive", "Folder", "Project", "Something", "Site", "Transect", "Photo"),
+           sep = "\\\\"
+  ) |>
+  filter(`Major Category` == "HC") |>
+  droplevels() |>
+  mutate(cover = count_groupcode / total) |>
+  rename("data_tally_group" = `Major Category`)
 
 data |> as.data.frame() |> head()
