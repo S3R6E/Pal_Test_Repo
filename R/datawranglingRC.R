@@ -113,6 +113,33 @@ data_rc_cover |> as.data.frame() |> glimpse()
 data_rc_cover <- 
   data_rc_cover |> 
   filter(data_tally_group == "HC") |>
-  mutate(cover = count_groupcode / total)
+  mutate(cover = count_groupcode / total) |>
+  mutate(date = as.Date(survey_start_date,"%Y-%m-%d"))
+
+location_lookup <- tribble(
+  ~site_reef_name, ~Side,
+  "Aquarium Reef", "West",
+  "Fantastic Reef", "West",
+  "Manta Ray Reef", "West",
+  "Cambari Reef", "East",
+  "Catad Reef", "East",
+  "Langoy Reef", "East",
+  "Snake Island - S3", "East",
+  "Helicopter Island Reef", "West"
+)
 
 data_rc_cover |> as.data.frame() |> glimpse()
+
+
+data_rc_cover |>
+  filter(type=="point_machine_classification") |>
+  ggplot(aes(y = cover, x = date, colour=site_reef_name)) +
+  geom_line()+
+  geom_point()
+
+data_rc_cover |>
+  filter(type=="point_machine_classification") |>
+  ggplot(aes(y = cover, x = date, colour=site_reef_type, group=site_reef_zone)) +
+  geom_line()+
+  geom_point()
+
