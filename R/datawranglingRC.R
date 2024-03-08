@@ -101,7 +101,6 @@ data_rc_cover <-
             TOTAL = sum(TOTAL)
   ) |> 
   ungroup() 
-data_rc_cover |> as.data.frame() |> glimpse()
 
 data_rc_cover <- 
   data_rc_cover |> 
@@ -109,4 +108,11 @@ data_rc_cover <-
          count_groupcode  = COUNT,
          total = TOTAL)
 
+data_rc_cover |> as.data.frame() |> glimpse()
 
+data_rc_cover <- 
+  data_rc_cover |> 
+  filter(data_tally_group == "HC") |>
+  mutate(cover = count_groupcode / total)
+
+data_rc_cover |> as.data.frame() |> glimpse()
