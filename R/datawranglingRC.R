@@ -157,3 +157,5 @@ data_rc_cover |>
   filter(type=="point_machine_classification") |>
   ggplot(aes(y = cover, x = Side)) +
   geom_point()
+
+write_csv(data_rc_cover, file="../data/processed/coral_cover_rc.csv")
