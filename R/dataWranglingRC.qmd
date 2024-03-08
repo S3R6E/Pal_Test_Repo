@@ -2,7 +2,7 @@
 title: "Data wrangling for ReefCloud data"
 author: "Samuel Chan"
 format: html
-editor: visual
+editor: source
 ---
 
 ```{r}
