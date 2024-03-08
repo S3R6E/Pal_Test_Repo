@@ -1,0 +1,23 @@
+site_id,site_name,site_latitude,site_longitude,site_reef_name,site_exposure,site_reef_type,site_reef_zone,site_management,survey_start_date,survey_depth,transect_name,transect_id,type,data_tally_group,count_groupcode,total,cover
+23233,WPU_PB_Aquarium,10.43,119.12,Aquarium Reef,exposed,patch,crest,,2019-04-27 10:30:00+00:00,5,WPU_PB_Aquarium_2019_1,2323320191,point_human_classification,HC,94,803,0.11706102117061021
+23233,WPU_PB_Aquarium,10.43,119.12,Aquarium Reef,exposed,patch,crest,,2019-04-27 10:30:00+00:00,5,WPU_PB_Aquarium_2019_1,2323320191,point_machine_classification,HC,399,794,0.5025188916876574
+23234,WPU_PB_Fantastic,10.46,119.15,Fantastic Reef,exposed,patch,crest,,2019-04-26 08:35:00+00:00,5,WPU_PB_Fantastic_2019_1,2323420191,point_human_classification,HC,0,775,0
+23234,WPU_PB_Fantastic,10.46,119.15,Fantastic Reef,exposed,patch,crest,,2019-04-26 08:35:00+00:00,5,WPU_PB_Fantastic_2019_1,2323420191,point_machine_classification,HC,228,663,0.3438914027149321
+23235,WPU_PB_Manta,10.47,119.17,Manta Ray Reef,exposed,patch,crest,,2019-04-27 08:00:00+00:00,5,WPU_PB_Manta_2019_1,2323520191,point_human_classification,HC,9,517,0.017408123791102514
+23235,WPU_PB_Manta,10.47,119.17,Manta Ray Reef,exposed,patch,crest,,2019-04-27 08:00:00+00:00,5,WPU_PB_Manta_2019_1,2323520191,point_machine_classification,HC,41,465,0.08817204301075268
+23236,WWF_Ar_Cambari,10.55,120.09,Cambari Reef,exposed,fringing,fore reef,,2021-09-28 08:00:00+00:00,5,WWF_Ar_Cambari_2021_1,2323620211,point_human_classification,HC,14,253,0.05533596837944664
+23236,WWF_Ar_Cambari,10.55,120.09,Cambari Reef,exposed,fringing,fore reef,,2021-09-28 08:00:00+00:00,5,WWF_Ar_Cambari_2021_1,2323620211,point_machine_classification,HC,122,264,0.4621212121212121
+23236,WWF_Ar_Cambari,10.55,120.09,Cambari Reef,exposed,fringing,fore reef,,2022-03-18 09:30:00+00:00,5,WWF_Ar_Cambari_2022_1,2323620221,point_human_classification,HC,0,308,0
+23236,WWF_Ar_Cambari,10.55,120.09,Cambari Reef,exposed,fringing,fore reef,,2022-03-18 09:30:00+00:00,5,WWF_Ar_Cambari_2022_1,2323620221,point_machine_classification,HC,0,308,0
+23237,WWF_Ar_Catad,10.54,120.02,Catad Reef,exposed,fringing,fore reef,,2021-09-29 13:00:00+00:00,5,WWF_Ar_Catad_2021_1,2323720211,point_human_classification,HC,83,273,0.304029304029304
+23237,WWF_Ar_Catad,10.54,120.02,Catad Reef,exposed,fringing,fore reef,,2021-09-29 13:00:00+00:00,5,WWF_Ar_Catad_2021_1,2323720211,point_machine_classification,HC,146,296,0.49324324324324326
+23237,WWF_Ar_Catad,10.54,120.02,Catad Reef,exposed,fringing,fore reef,,2022-03-18 12:30:00+00:00,5,WWF_Ar_Catad_2022_1,2323720221,point_human_classification,HC,1,278,0.0035971223021582736
+23237,WWF_Ar_Catad,10.54,120.02,Catad Reef,exposed,fringing,fore reef,,2022-03-18 12:30:00+00:00,5,WWF_Ar_Catad_2022_1,2323720221,point_machine_classification,HC,1,299,0.0033444816053511705
+23238,WWF_Ar_Langoy,10.5,120,Langoy Reef,exposed,fringing,fore reef,,2021-09-29 09:30:00+00:00,5,WWF_Ar_Langoy_2021_1,2323820211,point_human_classification,HC,0,250,0
+23238,WWF_Ar_Langoy,10.5,120,Langoy Reef,exposed,fringing,fore reef,,2021-09-29 09:30:00+00:00,5,WWF_Ar_Langoy_2021_1,2323820211,point_machine_classification,HC,54,253,0.2134387351778656
+23238,WWF_Ar_Langoy,10.5,120,Langoy Reef,exposed,fringing,fore reef,,2022-03-19 09:30:00+00:00,5,WWF_Ar_Langoy_2022_1,2323820221,point_human_classification,HC,0,250,0
+23238,WWF_Ar_Langoy,10.5,120,Langoy Reef,exposed,fringing,fore reef,,2022-03-19 09:30:00+00:00,5,WWF_Ar_Langoy_2022_1,2323820221,point_machine_classification,HC,3,283,0.01060070671378092
+23239,DENR_Snake_S3,9.91,118.85,Snake Island - S3,semi-exposed,fringing,crest,Government Research Area,2023-06-13 11:20:00+00:00,4,DENR_Snake_S3_2023_1,2323920231,point_human_classification,HC,31,530,0.05849056603773585
+23239,DENR_Snake_S3,9.91,118.85,Snake Island - S3,semi-exposed,fringing,crest,Government Research Area,2023-06-13 11:20:00+00:00,4,DENR_Snake_S3_2023_1,2323920231,point_machine_classification,HC,59,519,0.11368015414258188
+23240,PAMO_Helicopter,11.2,119.34,Helicopter Island Reef,semi-exposed,fringing,fore reef,Marine Protected Area,2023-08-31 09:35:00+00:00,4,PAMO_Helicopter_2023_1,2324020231,point_human_classification,HC,17,224,0.07589285714285714
+23240,PAMO_Helicopter,11.2,119.34,Helicopter Island Reef,semi-exposed,fringing,fore reef,Marine Protected Area,2023-08-31 09:35:00+00:00,4,PAMO_Helicopter_2023_1,2324020231,point_machine_classification,HC,24,218,0.11009174311926606
