@@ -1,5 +1,7 @@
 ## Exploratory data analysis
 
+load(file = "../data/processed/q6_all_data.Rdata")
+
 plot1 <-all_data |> 
   group_by(`Tourist Access`) |> 
   summarise(Mean = mean(cover),
@@ -18,3 +20,4 @@ ggsave(file = "../outputs/figures/tourist_access_plot1.png",
 
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
+
