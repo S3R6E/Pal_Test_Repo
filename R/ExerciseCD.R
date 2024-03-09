@@ -1,5 +1,8 @@
 library(tidyverse) ##package tidyverse used for manipulating data
 
+setwd("R")
+
+
 source("functions.R")
 
 ## Read in the data from the primary data folder (Transect1)
