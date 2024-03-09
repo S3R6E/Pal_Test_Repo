@@ -1,4 +1,5 @@
 ##To process the data
+load(file = "../data/primary/q6_data.Rdata")
 
 ##Transect 1
 data <- data |>
@@ -13,9 +14,10 @@ data <- data |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -Folder) |>
   mutate('Tourist Access'= "yes")
-
+save(data, file = "../data/processed/q6_data.Rdata")
 
 ##Transect 2
+load(file = "../data/primary/q6_data_T2.Rdata")
 data_T2 <- data_T2 |>
   cpce_classif_to_points() |>
   separate(`Frame image name`,
@@ -28,8 +30,10 @@ data_T2 <- data_T2 |>
   rename("data_tally_group" = `Major Category`) |>
   dplyr::select(-Drive, -Folder)|>
   mutate('Tourist Access'= "yes")
+save(data, file = "../data/processed/q6_data_T2.Rdata")
 
 ##Transect 3
+load(file = "../data/primary/q6_data_T3.Rdata")
 data_T3 <- data_T3 |>
   cpce_classif_to_points() |>
   separate(`Frame image name`,
@@ -42,9 +46,11 @@ data_T3 <- data_T3 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -Folder)|>
   mutate('Tourist Access'= "yes")
+save(data, file = "../data/processed/q6_data_T3.Rdata")
 
 
 ##Protected Transect 1
+load(file = "../data/primary/q6_data_PT1.Rdata")
 data_PT1 <- data_PT1 |>
   cpce_classif_to_points() |>
   separate(`Frame image name`,
@@ -57,8 +63,10 @@ data_PT1 <- data_PT1 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -Folder,-A,-B)|>
   mutate('Tourist Access'= "no")
+save(data, file = "../data/processed/q6_data_PT1.Rdata")
 
 ##Protected Transect 2
+load(file = "../data/primary/q6_data_PT2.Rdata")
 data_PT2 <- data_PT2 |>
   cpce_classif_to_points() |>
   separate(`Frame image name`,
@@ -71,10 +79,11 @@ data_PT2 <- data_PT2 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -Folder,-A,-B)|>
   mutate('Tourist Access'= "no")
-
+save(data, file = "../data/processed/q6_data_PT2.Rdata")
 
 
 ##Protected Transect 3
+load(file = "../data/primary/q6_data_PT3.Rdata")
 data_PT3 <- data_PT3 |>
   cpce_classif_to_points() |>
   separate(`Frame image name`,
@@ -87,6 +96,8 @@ data_PT3 <- data_PT3 |>
   rename("data_tally_group" = `Major Category`) |>
   dplyr::select(-Drive, -Folder,-A,-B)|>
   mutate('Tourist Access'= "no")
+save(data, file = "../data/processed/q6_data_PT3.Rdata")
+
 
 ## to bind all the data
 all_data <- bind_rows(data,
@@ -95,3 +106,6 @@ all_data <- bind_rows(data,
                       data_PT1,
                       data_PT2,
                       data_PT3)
+save(all_data, file = "../data/processed/q6_all_data.Rdata")
+
+
