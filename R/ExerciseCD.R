@@ -112,3 +112,24 @@ datarich <-bind_rows(data1a,
                  data3a,
                  data4a)
 
+q2_richplot <- datarich |> ggplot() + 
+  geom_boxplot(mapping = aes(x = Transect, y = Richness)) +
+  theme_bw()
+
+ggsave(q2_richplot, 
+       file = "../outputs/figures/q2_richplot.png", 
+       units = "cm", 
+       width = 12, 
+       height = 8,
+       dpi = 300)
+
+
+q2_richplot2 <-
+datarich |>  ggplot() +
+  geom_boxplot(mapping = aes(x = Transect, y = Richness, fill = Transect), show.legend = FALSE) +
+  scale_fill_manual(breaks = c("Transect 1", "Transect 2", "Transect 3", "Transect 4"),
+                    values = c("red", "orange", "purple", "#c6c6c6")) +
+  scale_y_continuous("Species Richness") +
+  theme_classic()
+q2_richplot2
+
