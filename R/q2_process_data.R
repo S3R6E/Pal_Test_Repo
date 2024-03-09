@@ -1,20 +1,9 @@
-library(tidyverse) ##package tidyverse used for manipulating data
-
 setwd("R")
 
 
-source("functions.R")
+##Transect1
+load(file = "../data/primary/q2_data1.RData")
 
-## Read in the data from the primary data folder (Transect1)
-data1 <- read_csv("../data/primary/Siete Picados_T1.csv")
-
-##traditional way of using a function
-glimpse(data1)
-##modern way of using a function
-data1 |> glimpse()
-data1
-
-##hard coral cover1 
 data1 <- data1 |>
   cpce_raw_classif_to_points() |>
   separate(`Frame image name`,
@@ -25,19 +14,21 @@ data1 <- data1 |>
   droplevels() |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = `Raw Data`)
-  
-##New function showing richness  
+
+save(data1, file = "../data/processed/q2_data1.RData")
+
+##New function showing richness transect1 
 data1a <- data1 |> 
   filter(`Major Category`=="HC") |> 
   group_by(Photo, Site, Transect) |> 
   summarise(Richness = length(unique(data_tally_group)))
 
 
-##Data2 for Transect2
-data2 <- read_csv("../data/primary/Siete Picados_T2.csv")
+save(data1a, file = "../data/processed/q2_data1a.RData")
 
-glimpse(data2)
-data2
+
+##Transect2
+load(file = "../data/primary/q2_data2.RData")
 
 data2 <- data2 |>
   cpce_raw_classif_to_points() |>
@@ -50,17 +41,18 @@ data2 <- data2 |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = `Raw Data`)
 
-##New function showing richness  
+save(data2, file = "../data/processed/q2_data2.RData")
+
+##New function showing richness transect2
 data2a <- data2 |> 
   filter(`Major Category`=="HC") |> 
   group_by(Photo, Site, Transect) |> 
   summarise(Richness = length(unique(data_tally_group)))
 
-##Data3 for Transect3
-data3 <- read_csv("../data/primary/Siete Picados_T3.csv")
+save(data2a, file = "../data/processed/q2_data2a.RData")
 
-glimpse(data3)
-data3
+##Transect3
+load(file = "../data/primary/q2_data3.RData")
 
 data3 <- data3 |>
   cpce_raw_classif_to_points() |>
@@ -73,17 +65,18 @@ data3 <- data3 |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = `Raw Data`)
 
-##New function showing richness  
+save(data3, file = "../data/processed/q2_data3.RData")
+
+##New function showing richness transect3
 data3a <- data3 |> 
   filter(`Major Category`=="HC") |> 
   group_by(Photo, Site, Transect) |> 
   summarise(Richness = length(unique(data_tally_group)))
 
-####Data4 for Transect4
-data4 <- read_csv("../data/primary/Siete Picados_T4.csv")
+save(data3a, file = "../data/processed/q2_data3a.RData")
 
-glimpse(data4)
-data4
+##Transect4
+load(file = "../data/primary/q2_data4.RData")
 
 data4 <- data4 |>
   cpce_raw_classif_to_points() |>
@@ -96,19 +89,28 @@ data4 <- data4 |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = `Raw Data`)
 
+save(data4, file = "../data/processed/q2_data4.RData")
+
 ##New function showing richness  
 data4a <- data4 |> 
   filter(`Major Category`=="HC") |> 
   group_by(Photo, Site, Transect) |> 
   summarise(Richness = length(unique(data_tally_group)))
 
+save(data4a, file = "../data/processed/q2_data4a.RData")
+
+##All 4 transects merged
+
 data <-bind_rows(data1,
                  data2,
                  data3,
                  data4)
+save(data, file = "../data/processed/q2_data.RData")
 
 datarich <-bind_rows(data1a,
-                 data2a,
-                 data3a,
-                 data4a)
+                     data2a,
+                     data3a,
+                     data4a)
+
+save(datarich, file = "../data/processed/q2_datarich.RData")
 
