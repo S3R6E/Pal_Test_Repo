@@ -1,9 +1,10 @@
-library(tidyverse)
 
-data_rc <- read.csv("../data/primary/data-coral-cover.csv")
-labelset_rc <- read.csv("../data/primary/data-coral-cover-labelset.csv")
+load(file = "../data/primary/q1_data_rc.Rdata")
+load(file = "../data/primary/q1_labelset_rc.Rdata")
 
+## coral cover processed data
 data_rc |> glimpse()
+labelset_rc |> glimpse()
 
 data_rc <- data_rc |> 
   dplyr::select(project_id,
@@ -19,7 +20,7 @@ data_rc <- data_rc |>
                 site_management,
                 survey_id,
                 survey_title,
-                survey_start_date..UTC.,
+                `survey_start_date (UTC)`,
                 survey_depth,
                 survey_transect_number, 
                 image_id,
@@ -27,8 +28,8 @@ data_rc <- data_rc |>
                 point_machine_classification,
                 point_human_classification
   ) |> 
-  rename(survey_start_date = survey_start_date..UTC.) |> 
-  dplyr::filter(image_disabled == "False") |> 
+  rename(survey_start_date = `survey_start_date (UTC)`) |> 
+  dplyr::filter(image_disabled == FALSE) |> 
   select(-image_disabled)
 
 data_rc <- data_rc |> 
@@ -40,7 +41,7 @@ data_rc <- data_rc |>
 data_rc <-
   data_rc |>
   left_join(labelset_rc |>
-              dplyr::select(CODE, GROUP = `FUNCTIONAL.GROUP`),
+              dplyr::select(CODE, GROUP = `FUNCTIONAL GROUP`),
             by = c("classification" = "CODE")
   ) |> 
   mutate(transect_name = paste(site_name, year(survey_start_date), survey_transect_number, sep ="_"),
@@ -108,13 +109,14 @@ data_rc_cover <-
          count_groupcode  = COUNT,
          total = TOTAL)
 
+
 data_rc_cover |> as.data.frame() |> glimpse()
 
 data_rc_cover <- 
   data_rc_cover |> 
   filter(data_tally_group == "HC") |>
   mutate(cover = count_groupcode / total) |>
-  mutate(date = as.Date(survey_start_date,"%Y-%m-%d"))
+  mutate(date = as.Date(survey_start_date))
 
 location_lookup <- tribble(
   ~site_reef_name, ~Side,
@@ -132,45 +134,9 @@ data_rc_cover <-
   left_join(location_lookup,
             by="site_reef_name")
 
- # filter(type == "point_machine_classification") |>
- # mutate(cover = count_groupcode / total * 100) %>% 
- # mutate(date = as.Date(survey_start_date, "%Y-%m-%d"))
+# filter(type == "point_machine_classification") |>
+# mutate(cover = count_groupcode / total * 100) %>% 
+# mutate(date = as.Date(survey_start_date, "%Y-%m-%d")) 
 
 
-data_rc_cover |> as.data.frame() |> glimpse()
-
-
-data_rc_cover |>
-  filter(type=="point_machine_classification") |>
-  ggplot(aes(y = cover, x = date, colour=site_reef_name)) +
-  geom_line()+
-  geom_point()
-
-data_rc_cover |>
-  filter(type=="point_machine_classification") |>
-  ggplot(aes(y = cover, x = date, colour=site_reef_type, group=site_reef_zone)) +
-  geom_line()+
-  geom_point()
-
-data_rc_cover |>
-  filter(type=="point_machine_classification") |>
-  ggplot(aes(y = cover, x = date, colour=Side, group=site_reef_zone)) +
-  geom_line()+
-  geom_point()
-
-data_rc_cover |>
-  filter(type=="point_machine_classification") |>
-  ggplot(aes(y = cover, x = Side)) +
-  geom_point()
-
-write_csv(data_rc_cover, file="../data/processed/coral_cover_rc.csv")
-
-data_rc_cover %>%
-  ggplot(aes (y = cover, x = survey_start_date)) +
-  geom_point()
-
-data_rc_cover %>% 
-  filter(type=="point_machine_classification") %>% 
-  ggplot(aes(y = cover, x = date, colours=site_reef_type, group=site_reef_zone)) +
-  geom_line()+
-  geom_point()
+save(data_rc_cover, file = "../data/processed/q1_data_rc_cover.RData")

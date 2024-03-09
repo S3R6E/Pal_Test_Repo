@@ -47,6 +47,7 @@ data_rc <-
          transect_id = paste0(site_id, year(survey_start_date), survey_transect_number)) |>
   mutate(year = lubridate::year(survey_start_date))
 
+
 data_rc_cover <- 
   data_rc |> 
   group_by(across(c(starts_with("site"),
@@ -63,7 +64,7 @@ data_rc_cover <-
   mutate(TOTAL = sum(COUNT)) |>
   ungroup() 
 
-GROUPS <- data_rc_cover |> pull(GROUP) |> unique()
+classification <- data_rc_cover |> pull(classification) |> unique()
 filler <- data_rc_cover %>%
   dplyr::select(
     starts_with("site"),
@@ -75,7 +76,7 @@ filler <- data_rc_cover %>%
     type,
     TOTAL) |> 
   distinct() |> 
-  tidyr::crossing(GROUP = GROUPS) 
+  tidyr::crossing(classification = classification) 
 
 data_rc_cover <-
   data_rc_cover |> 
@@ -88,89 +89,8 @@ data_rc_cover <-
              transect_id,
              image_id,
              type,
-             GROUP
+             classication, GROUP
     ))) |> 
   mutate(COUNT = ifelse(is.na(COUNT), 0, COUNT),
          TOTAL = max(TOTAL, na.rm = TRUE)
   )
-
-data_rc_cover <- 
-  data_rc_cover |>
-  ungroup(image_id) |>
-  summarise(COUNT = sum(COUNT),
-            TOTAL = sum(TOTAL)
-  ) |> 
-  ungroup() 
-
-data_rc_cover <- 
-  data_rc_cover |> 
-  rename(data_tally_group = GROUP,
-         count_groupcode  = COUNT,
-         total = TOTAL)
-
-data_rc_cover |> as.data.frame() |> glimpse()
-
-data_rc_cover <- 
-  data_rc_cover |> 
-  filter(data_tally_group == "HC") |>
-  mutate(cover = count_groupcode / total) |>
-  mutate(date = as.Date(survey_start_date,"%Y-%m-%d"))
-
-location_lookup <- tribble(
-  ~site_reef_name, ~Side,
-  "Aquarium Reef", "West",
-  "Fantastic Reef", "West",
-  "Manta Ray Reef", "West",
-  "Cambari Reef", "East",
-  "Catad Reef", "East",
-  "Langoy Reef", "East",
-  "Snake Island - S3", "East",
-  "Helicopter Island Reef", "West"
-)
-data_rc_cover <- 
-  data_rc_cover |> 
-  left_join(location_lookup,
-            by="site_reef_name")
-
- # filter(type == "point_machine_classification") |>
- # mutate(cover = count_groupcode / total * 100) %>% 
- # mutate(date = as.Date(survey_start_date, "%Y-%m-%d"))
-
-
-data_rc_cover |> as.data.frame() |> glimpse()
-
-
-data_rc_cover |>
-  filter(type=="point_machine_classification") |>
-  ggplot(aes(y = cover, x = date, colour=site_reef_name)) +
-  geom_line()+
-  geom_point()
-
-data_rc_cover |>
-  filter(type=="point_machine_classification") |>
-  ggplot(aes(y = cover, x = date, colour=site_reef_type, group=site_reef_zone)) +
-  geom_line()+
-  geom_point()
-
-data_rc_cover |>
-  filter(type=="point_machine_classification") |>
-  ggplot(aes(y = cover, x = date, colour=Side, group=site_reef_zone)) +
-  geom_line()+
-  geom_point()
-
-data_rc_cover |>
-  filter(type=="point_machine_classification") |>
-  ggplot(aes(y = cover, x = Side)) +
-  geom_point()
-
-write_csv(data_rc_cover, file="../data/processed/coral_cover_rc.csv")
-
-data_rc_cover %>%
-  ggplot(aes (y = cover, x = survey_start_date)) +
-  geom_point()
-
-data_rc_cover %>% 
-  filter(type=="point_machine_classification") %>% 
-  ggplot(aes(y = cover, x = date, colours=site_reef_type, group=site_reef_zone)) +
-  geom_line()+
-  geom_point()
