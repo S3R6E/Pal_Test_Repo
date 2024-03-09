@@ -4,6 +4,13 @@ setwd("R")
 ##Transect1
 load(file = "../data/primary/q2_data1.RData")
 
+## Process the data:
+## - convert the taxon categories into counts per photo for each category
+## - extracting important spatial data from the image name (split filename
+##   into Site, Transect and Photo variable)
+## - add a column that is the cover of coral calculated as the number of 
+##   points of coral divided bt the total number of points
+## - rename the Raw Data column to make it consistent across multiple data sets
 data1 <- data1 |>
   cpce_raw_classif_to_points() |>
   separate(`Frame image name`,
@@ -11,19 +18,26 @@ data1 <- data1 |>
            sep = "\\\\"
   ) |>
   #filter(`Major Category` == "HC") |>
-  droplevels() |>
+  ##droplevels() |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = `Raw Data`)
 
 save(data1, file = "../data/processed/q2_data1.RData")
 
-##New function showing richness transect1 
+##Process data showing the richness of Hard Coral category:
+## - assigning the data richness of transect 1 to data1a
+## - filtering the variables for Hard coral category
+## - grouped the variables Photo, site and transects to exclude it from other variables
+## - assigning "Richness" for the summary of data of hard coral cover points
+## - ungroup function to set back all the data sets
 data1a <- data1 |> 
   filter(`Major Category`=="HC") |> 
+  droplevels() |>
   group_by(Photo, Site, Transect) |> 
-  summarise(Richness = length(unique(data_tally_group)))
+  summarise(Richness = length(unique(data_tally_group))) |>
+  ungroup()
 
-
+##saving the data into file linking to the 
 save(data1a, file = "../data/processed/q2_data1a.RData")
 
 
