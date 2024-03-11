@@ -120,7 +120,8 @@ all_data <- bind_rows(data_T1,
                       data_T3,
                       data_PT1,
                       data_PT2,
-                      data_PT3)
+                      data_PT3)|>
+dplyr::rename(tourist_access = `Tourist Access`)
 
 #exploratory data analysis
 plot1 <-all_data|>
