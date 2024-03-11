@@ -19,3 +19,4 @@ cpce_raw_classif_to_points <- function(dat) {
               count_groupcode = n()) |> 
     dplyr::select(`Frame image name`, `Major Category`, `Raw Data`, total, count_groupcode) 
 }
+
