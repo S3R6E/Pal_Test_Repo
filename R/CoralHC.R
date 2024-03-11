@@ -133,14 +133,15 @@ ggsave(file = "../outputs/figures/tourist_access_plot1.png",
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
 
+library(tidyverse)
 library(rstan)
 library(brms)
+library(tidybayes)
 library(DHARMa)
+library(emmeans)
 library(patchwork)
 
 glimpse(all_data)
-
-set.seed(3001)
 
 form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site),
            family = binomial(link = "logit"))
@@ -149,14 +150,14 @@ get_prior(form, data=all_data)
 
 priors <- prior(normal(0,1), class = "Intercept") +
   prior(normal(0,1), class = "b") +
-  prior(student_t(3,0,2), class = "sd")
+  prior(student_t(3,0,3), class = "sd")
 
 model1 <- brm(form, 
               data = all_data,
               prior = priors,
               chains = 3,
               iter = 4000,
-              warmup = 2000,
+              warmup = 1000,
               thin = 10,
               sample_prior = "only",
               backend = "rstan")
@@ -191,4 +192,10 @@ plotResiduals(resids, form = factor(rep(1, nrow(all_data))))
 plotResiduals(resids)
 
 testDispersion(resids)
-``
+
+summary(model1)
+
+model1 |> emmeans(~ tourist_access, type = "response")
+
+model1 |> emmeans(~ tourist_access, type = "response") |>
+  pairs()
