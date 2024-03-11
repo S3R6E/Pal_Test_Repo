@@ -25,6 +25,7 @@ cpce_raw_classif_to_points <- function(dat) {
 >>>>>>> dbe02ccf1620e13db72a556b1b3c828e4cef4070
 =======
 
+
 SUYR_prior_and_posterior <- function(mod) {
     dat <- mod$data
     terms <- attr(dat, 'terms')
@@ -188,4 +189,8 @@ make_brms_dharma_res <- function(brms_model, seed = 10, ...) {
                 ...
             )
 }
+<<<<<<< HEAD
 >>>>>>> 50b690366a05061ef2adaa0366ebc303793fb121
+=======
+
+>>>>>>> 8ea8d0f00a93e74bba6572529d8e837b80992256
