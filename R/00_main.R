@@ -8,9 +8,9 @@ source("q1.R")
 ##   - data needs: Coral cover at sites over time
 source("q2.R")
 
-## - Question 3: effect of MPA's/tourism on coral cover/diversity
+## - Question 6: effect of MPA's/tourism on coral cover/diversity
 ##   - data needs: Coral cover at both MPA and non-MPA sites
-source("q3.R")
+source("q6.R")
 
 ## - Question 4: coral community composition over time and space
 ##   - data needs: Coral cover at sites over time
