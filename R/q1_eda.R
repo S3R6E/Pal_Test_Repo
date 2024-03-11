@@ -74,3 +74,16 @@ data_rc_cover %>%
   geom_line()+
   geom_point()
 
+##Exploring comparison between human and machine 
+p1<- data_rc_cover %>% 
+  ggplot(aes(x = type, y=cover)) +
+  geom_boxplot()
+
+p1
+
+p2<- data_rc_cover %>% 
+  ggplot(aes(x = type, y=cover)) +
+  geom_boxplot(aes(fill=type))+
+  facet_wrap("site_name")
+
+p2
