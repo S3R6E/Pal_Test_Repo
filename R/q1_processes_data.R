@@ -1,6 +1,10 @@
 
+load(file = "../data/primary/q1_data_rc.Rdata")
+load(file = "../data/primary/q1_labelset_rc.Rdata")
+
 ## coral cover processed data
 data_rc |> glimpse()
+labelset_rc |> glimpse()
 
 data_rc <- data_rc |> 
   dplyr::select(project_id,
@@ -16,7 +20,7 @@ data_rc <- data_rc |>
                 site_management,
                 survey_id,
                 survey_title,
-                survey_start_date..UTC.,
+                `survey_start_date (UTC)`,
                 survey_depth,
                 survey_transect_number, 
                 image_id,
@@ -24,8 +28,8 @@ data_rc <- data_rc |>
                 point_machine_classification,
                 point_human_classification
   ) |> 
-  rename(survey_start_date = survey_start_date..UTC.) |> 
-  dplyr::filter(image_disabled == "False") |> 
+  rename(survey_start_date = `survey_start_date (UTC)`) |> 
+  dplyr::filter(image_disabled == FALSE) |> 
   select(-image_disabled)
 
 data_rc <- data_rc |> 
@@ -37,7 +41,7 @@ data_rc <- data_rc |>
 data_rc <-
   data_rc |>
   left_join(labelset_rc |>
-              dplyr::select(CODE, GROUP = `FUNCTIONAL.GROUP`),
+              dplyr::select(CODE, GROUP = `FUNCTIONAL GROUP`),
             by = c("classification" = "CODE")
   ) |> 
   mutate(transect_name = paste(site_name, year(survey_start_date), survey_transect_number, sep ="_"),
@@ -105,13 +109,14 @@ data_rc_cover <-
          count_groupcode  = COUNT,
          total = TOTAL)
 
+
 data_rc_cover |> as.data.frame() |> glimpse()
 
 data_rc_cover <- 
   data_rc_cover |> 
   filter(data_tally_group == "HC") |>
   mutate(cover = count_groupcode / total) |>
-  mutate(date = as.Date(survey_start_date,"%Y-%m-%d"))
+  mutate(date = as.Date(survey_start_date))
 
 location_lookup <- tribble(
   ~site_reef_name, ~Side,
@@ -132,3 +137,6 @@ data_rc_cover <-
 # filter(type == "point_machine_classification") |>
 # mutate(cover = count_groupcode / total * 100) %>% 
 # mutate(date = as.Date(survey_start_date, "%Y-%m-%d")) 
+
+
+save(data_rc_cover, file = "../data/processed/q1_data_rc_cover.RData")
