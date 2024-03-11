@@ -20,6 +20,7 @@ cpce_raw_classif_to_points <- function(dat) {
     dplyr::select(`Frame image name`, `Major Category`, `Raw Data`, total, count_groupcode) 
 }
 
+
 SUYR_prior_and_posterior <- function(mod) {
     dat <- mod$data
     terms <- attr(dat, 'terms')
@@ -183,3 +184,4 @@ make_brms_dharma_res <- function(brms_model, seed = 10, ...) {
                 ...
             )
 }
+
