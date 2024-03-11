@@ -33,10 +33,14 @@ data_rc <- data_rc |>
   select(-image_disabled)
 
 data_rc <- data_rc |> 
+  filter(!is.na(point_human_classification) )
+
+# ignore this
+data_rc <- data_rc |>
   pivot_longer(cols = matches("point_.*_classification"),
                names_to = "type",
                values_to = "classification"
-  ) 
+  )
 
 data_rc <-
   data_rc |>
@@ -108,7 +112,6 @@ data_rc_cover <-
   rename(data_tally_group = GROUP,
          count_groupcode  = COUNT,
          total = TOTAL)
-
 
 data_rc_cover |> as.data.frame() |> glimpse()
 
