@@ -109,7 +109,8 @@ all_data <- bind_rows(data,
                       data_T3,
                       data_PT1,
                       data_PT2,
-                      data_PT3)
+                      data_PT3) |>
+  dplyr::rename(tourist_access = `Tourist Access`)
  
 ## Exploratory data analysis
 
@@ -131,3 +132,19 @@ ggsave(file = "../outputs/figures/tourist_access_plot1.png",
 
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
+
+library(brms)
+
+glimpse(all_data)
+
+form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site) + (1| Transect),
+           family = binomial(link = "logit"))
+model1 <- brm(form, 
+              data = all_data)
+model1 |> conditional_effects() |> plot()
+
+model1 |> plot()
+
+get_prior(form, data=all_data)
+
+summary(model1)
