@@ -120,6 +120,13 @@ data <-bind_rows(data1,
                  data3,
                  data4)
 save(data, file = "../data/processed/q2_data.RData")
+load("../data/processed/q2_data.RData")
+data <- data |> 
+  group_by(Site, Transect, Photo, `Major Category`) |> 
+  summarise(count_groupcode = sum(count_groupcode),
+           total=max(total))
+save(data, file = "../data/processed/q2_data.RData")
+
 
 datarich <-bind_rows(data1a,
                      data2a,

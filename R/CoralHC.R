@@ -1,6 +1,7 @@
 library(tidyverse)
 
-source("functions.R")
+
+source("C:/Users/asust/OneDrive/Desktop/Rstudio/Pal_Test_Repo/Copyoffunctions.R")
 
 ##reading the data from the primary data folder
 data <- read_csv("../data/primary/DiveSite_AbdeensRock_T1.csv")
@@ -11,9 +12,10 @@ data_T3 <- read_csv("../data/primary/DiveSite_AbdeensRock_T3.csv")
 data_PT1 <- read_csv("../data/primary/Protected_MitriRock_T1.csv")
 data_PT2 <- read_csv("../data/primary/Protected_MitriRock_T2.csv")
 data_PT3 <- read_csv("../data/primary/Protected_MitriRock_T3.csv")
-
-##checking data
 glimpse(data)
+
+
+##To process the data
 
 ##Transect 1
 data <- data |>
@@ -103,7 +105,7 @@ data_PT3 <- data_PT3 |>
   dplyr::select(-Drive, -Folder,-A,-B)|>
   mutate('Tourist Access'= "no")
 
-
+## to bind all the data
 all_data <- bind_rows(data,
                       data_T2,
                       data_T3,
@@ -125,7 +127,7 @@ plot1 <-all_data |>
   geom_pointrange(aes(ymin=lower, ymax=upper)) +
   scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
   theme_classic(10)
-
+plot1
 ggsave(file = "../outputs/figures/tourist_access_plot1.png",
        width = 700, height = 500, units = "px",
       dpi=300)
@@ -133,14 +135,15 @@ ggsave(file = "../outputs/figures/tourist_access_plot1.png",
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
 
+library(tidyverse)
 library(rstan)
 library(brms)
+library(tidybayes)
 library(DHARMa)
+library(emmeans)
 library(patchwork)
 
 glimpse(all_data)
-
-set.seed(3001)
 
 form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site),
            family = binomial(link = "logit"))
@@ -149,14 +152,14 @@ get_prior(form, data=all_data)
 
 priors <- prior(normal(0,1), class = "Intercept") +
   prior(normal(0,1), class = "b") +
-  prior(student_t(3,0,2), class = "sd")
+  prior(student_t(3,0,3), class = "sd")
 
 model1 <- brm(form, 
               data = all_data,
               prior = priors,
               chains = 3,
               iter = 4000,
-              warmup = 2000,
+              warmup = 1000,
               thin = 10,
               sample_prior = "only",
               backend = "rstan")
@@ -191,4 +194,10 @@ plotResiduals(resids, form = factor(rep(1, nrow(all_data))))
 plotResiduals(resids)
 
 testDispersion(resids)
-``
+
+summary(model1)
+
+model1 |> emmeans(~ tourist_access, type = "response")
+
+model1 |> emmeans(~ tourist_access, type = "response") |>
+  pairs()
