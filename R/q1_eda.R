@@ -16,7 +16,7 @@ data_rc_cover |>
   scale_x_date("Year") +
   scale_colour_discrete("Reef name") +
   theme_classic(8) +
-  theme(panel.grid.major = element_line(size=0.5, colour="black"))
+  theme(panel.grid.major = element_line(size=0.5))
 plot1
 
 ggsave(filename = "../outputs/figures/q1_figure1.png",
@@ -24,6 +24,26 @@ ggsave(filename = "../outputs/figures/q1_figure1.png",
 ggsave(filename = "../outputs/figures/q1_figure1.pdf",
        width=150, height=100, units="mm")
 
+
+plot2 <-
+  data_rc_cover |>
+  filter(type=="point_human_classification") |>
+  ggplot(aes(y = cover, 
+             x = date, 
+             colour=site_reef_name)) +
+  geom_line()+
+  geom_point(shape = 17, size=3) +
+  scale_y_continuous("Hard coral cover (%)", labels=function(x) x*100) +
+  scale_x_date("Year") +
+  scale_colour_discrete("Reef Name Human Classified") +
+  theme_classic(8) +
+  theme(panel.grid.major = element_line(size=0.5))
+plot2
+
+ggsave(filename = "../outputs/figures/q1_figure2.png",
+       dpi = 300, width=150, height=100, units="mm")
+ggsave(filename = "../outputs/figures/q1_figure2.pdf",
+       width=150, height=100, units="mm")
 
 data_rc_cover |>
   filter(type=="point_machine_classification") |>
@@ -54,3 +74,18 @@ data_rc_cover %>%
   geom_line()+
   geom_point()
 
+##Exploring comparison between human and machine 
+p1<- data_rc_cover %>% 
+  ggplot(aes(x = type, y=cover)) +
+  geom_boxplot()
+
+p1
+
+p2<- data_rc_cover %>% 
+  ggplot(aes(x = type, y=cover)) +
+  geom_boxplot(aes(fill=type))+
+  facet_wrap("site_name")
+
+p2
+
+ 

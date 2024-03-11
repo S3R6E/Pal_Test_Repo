@@ -109,7 +109,8 @@ all_data <- bind_rows(data,
                       data_T3,
                       data_PT1,
                       data_PT2,
-                      data_PT3)
+                      data_PT3) |>
+  dplyr::rename(tourist_access = `Tourist Access`)
  
 ## Exploratory data analysis
 
@@ -131,3 +132,70 @@ ggsave(file = "../outputs/figures/tourist_access_plot1.png",
 
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
+
+library(tidyverse)
+library(rstan)
+library(brms)
+library(tidybayes)
+library(DHARMa)
+library(emmeans)
+library(patchwork)
+
+glimpse(all_data)
+
+form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site),
+           family = binomial(link = "logit"))
+
+get_prior(form, data=all_data)
+
+priors <- prior(normal(0,1), class = "Intercept") +
+  prior(normal(0,1), class = "b") +
+  prior(student_t(3,0,3), class = "sd")
+
+model1 <- brm(form, 
+              data = all_data,
+              prior = priors,
+              chains = 3,
+              iter = 4000,
+              warmup = 1000,
+              thin = 10,
+              sample_prior = "only",
+              backend = "rstan")
+
+model1 |> conditional_effects() |> plot()
+
+model1 <- model1 |> 
+  update(sample_prior = "yes")
+
+model1 |> conditional_effects() |> plot()
+
+model1 |> plot()
+
+summary(model1)
+
+model1$fit |> stan_trace()
+
+model1$fit |> stan_ac()
+
+model1$fit |> stan_rhat()
+
+model1$fit |> stan_ess()
+
+model1 |> pp_check(type = "dens_overlay", ndraws = 100)
+
+resids <- model1 |> make_brms_dharma_res(integerResponse = FALSE)
+
+testUniformity(resids)
+
+plotResiduals(resids, form = factor(rep(1, nrow(all_data))))
+
+plotResiduals(resids)
+
+testDispersion(resids)
+
+summary(model1)
+
+model1 |> emmeans(~ tourist_access, type = "response")
+
+model1 |> emmeans(~ tourist_access, type = "response") |>
+  pairs()
