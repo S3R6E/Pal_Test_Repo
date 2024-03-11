@@ -1,16 +1,16 @@
 library(tidyverse)
 
-source("functions.R")
+source("../Pal_Test_Repo/R/functions.R")
 
 ##reading the data from the primary data folder
-data <- read_csv("../data/primary/DiveSite_AbdeensRock_T1.csv")
+data <- read_csv("../Pal_Test_Repo/data/primary/DiveSite_AbdeensRock_T1.csv")
 glimpse(data)
-data_T2 <- read_csv("../data/primary/DiveSite_AbdeensRock_T2.csv")
+data_T2 <- read_csv("../Pal_Test_Repo/data/primary/DiveSite_AbdeensRock_T2.csv")
 glimpse(data_T2)
-data_T3 <- read_csv("../data/primary/DiveSite_AbdeensRock_T3.csv")
-data_PT1 <- read_csv("../data/primary/Protected_MitriRock_T1.csv")
-data_PT2 <- read_csv("../data/primary/Protected_MitriRock_T2.csv")
-data_PT3 <- read_csv("../data/primary/Protected_MitriRock_T3.csv")
+data_T3 <- read_csv("../Pal_Test_Repo/data/primary/DiveSite_AbdeensRock_T3.csv")
+data_PT1 <- read_csv("../Pal_Test_Repo/data/primary/Protected_MitriRock_T1.csv")
+data_PT2 <- read_csv("../Pal_Test_Repo/data/primary/Protected_MitriRock_T2.csv")
+data_PT3 <- read_csv("../Pal_Test_Repo/data/primary/Protected_MitriRock_T3.csv")
 
 ##checking data
 glimpse(data)
@@ -109,18 +109,19 @@ all_data <- bind_rows(data,
                       data_T3,
                       data_PT1,
                       data_PT2,
-                      data_PT3)
+                      data_PT3) |> 
+  dplyr::rename(tourist_access = 'Tourist Access')
  
 ## Exploratory data analysis
 
 plot1 <-all_data |> 
-  group_by(`Tourist Access`) |> 
+  group_by(tourist_access) |> 
   summarise(Mean = mean(cover),
             SD = sd(cover)) |> 
   mutate(lower = Mean -SD,
          upper = Mean + SD) |> 
   ungroup() |> 
-  ggplot(aes(y = Mean, x = `Tourist Access`)) +
+  ggplot(aes(y = Mean, x = tourist_access)) +
   geom_pointrange(aes(ymin=lower, ymax=upper)) +
   scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
   theme_classic(10)
@@ -131,3 +132,27 @@ ggsave(file = "../outputs/figures/tourist_access_plot1.png",
 
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
+
+library(brms)
+
+glimpse(all_data)
+
+form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site) + (1| Transect),
+           family = binomial(link = "logit"))
+
+model1 <- brm(form,
+              data=all_data)
+model1 |> conditional_effects() |> plot()
+
+model1 |> plot()
+
+form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site) + (1| Transect),
+           family = beta_binomial(link = "logit"))
+model2 <- brm(form,
+             data=all_data)
+model2 |> conditional_effects() |> plot()
+model2 |> plot()
+
+get_prior(form, data=all_data)
+
+summary(model2)

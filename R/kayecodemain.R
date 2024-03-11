@@ -10,8 +10,11 @@ data_T1 <- read_csv("../data/primary/DiveSite_AbdeensRock_T1.csv")
 data_T2 <- read_csv("../data/primary/DiveSite_AbdeensRock_T2.csv")
 data_T3 <- read_csv("../data/primary/DiveSite_AbdeensRock_T3.csv")
 
-##to process data
+##to process data, modify the graph, eliminate the columns or data that we don't need 
+##and to add another column for tourist access to differentiate the data.
+
 ##transect PT1 
+
 glimpse(data_PT1)
 
 data_PT1 <- data_PT1 |>
@@ -19,7 +22,7 @@ data_PT1 <- data_PT1 |>
   separate('Frame image name',
            into = c("Drive", "A", "B", "Folder","Site","Transect","Photo"),
            sep = "\\\\"
-  ) |>
+  )|>
   filter(`Major Category` == "HC") |>
   droplevels() |>
   mutate(cover = count_groupcode / total) |>
@@ -27,7 +30,10 @@ data_PT1 <- data_PT1 |>
   dplyr::select(-A, -B, -Drive, -Folder)|>
   mutate('Tourist Access'= "no")
 
+##do the same for the rest of the transect and site.
+
 ##transect PT2
+
 data_PT2 <- read_csv("../data/primary/Protected_MitriRock_PT2.csv")
 
 glimpse(data_PT2)
@@ -66,6 +72,7 @@ data_PT3 <- data_PT3 |>
   mutate('Tourist Access'= "no")
 
 ##transect T1
+
 data_T1 <- read_csv("../data/primary/DiveSite_AbdeensRock_T1.csv")
 
 glimpse(data_T1)
@@ -119,7 +126,7 @@ data_T3 <- data_T3 |>
   dplyr::select(-Drive, -Folder)|>
   mutate('Tourist Access'= "yes")
 
-##to combine all the data
+##to combine all the data into one
 
 all_data <- bind_rows(data_T1,
                       data_T2,
@@ -137,16 +144,20 @@ plot1 <-all_data |>
   mutate(lower = Mean -SD,
          upper = Mean + SD) |> 
   ungroup() |> 
-  ggplot(aes(y = Mean, x = `Tourist Access`)) +
+  ggplot(aes(y = Mean, x = `Tourist Access`, colour= `Tourist Access`))+
   geom_pointrange(aes(ymin=lower, ymax=upper)) +
-  scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
-  theme_classic(10)
+  scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100)+
+  scale_colour_manual(values = c("magenta", "cyan"))+
+  theme_classic(10) 
+
+plot1 
 
 ##to make and save a PNG file of the graph
 ggsave(file = "../outputs/figures/tourist_access_plot1.png",
        width = 700, height = 500, units = "px",
        dpi=300)
 
-##
+##to make and save pdf copy of the graph 
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
+
