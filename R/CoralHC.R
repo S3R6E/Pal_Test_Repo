@@ -1,6 +1,7 @@
 library(tidyverse)
 
-source("functions.R")
+
+source("C:/Users/asust/OneDrive/Desktop/Rstudio/Pal_Test_Repo/Copyoffunctions.R")
 
 ##reading the data from the primary data folder
 data <- read_csv("../data/primary/DiveSite_AbdeensRock_T1.csv")
