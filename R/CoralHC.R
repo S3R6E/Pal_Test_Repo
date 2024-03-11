@@ -137,10 +137,14 @@ library(brms)
 
 glimpse(all_data)
 
-form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site),
+form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site) + (1| Transect),
            family = binomial(link = "logit"))
 model1 <- brm(form, 
               data = all_data)
 model1 |> conditional_effects() |> plot()
 
 model1 |> plot()
+
+get_prior(form, data=all_data)
+
+summary(model1)
