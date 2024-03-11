@@ -1,4 +1,5 @@
 #exploratory data analysis
+load(file = "../data/processed/Q6_all_data.Rdata")
 plot1 <-all_data|>
   group_by(`Tourist Access`)|>
   summarise(Mean = mean (cover),

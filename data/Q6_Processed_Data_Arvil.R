@@ -15,6 +15,7 @@ data_T1 <- data_T1 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -A)|>
   mutate('Tourist Access'= "Yes")
+save(data, file = "../data/processed/Q6_dataT1.Rdata")
 
 #Data_T2
 data_T2 <- read_csv("../data/primary/DiveSite_AbdeensRock_T2.csv")
@@ -31,6 +32,7 @@ data_T2 <- data_T2 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -A)|>
   mutate('Tourist Access'= "Yes")
+save(data, file = "../data/processed/Q6_dataT2.Rdata")
 
 #Data_T3
 data_T3 <- read_csv("../data/primary/DiveSite_AbdeensRock_T3.csv")
@@ -47,6 +49,7 @@ data_T3 <- data_T3 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -A)|>
   mutate('Tourist Access'= "Yes")
+save(data, file = "../data/processed/Q6_dataT3.Rdata")
 
 #Data_PT1
 data_PT1 <- read_csv("../data/primary/Protected_MitriRock_T1.csv")
@@ -63,6 +66,7 @@ data_PT1 <- data_PT1 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -A, -B, -C)|>
   mutate('Tourist Access'= "No")
+save(data, file = "../data/processed/Q6_dataPT1.Rdata")
 
 #Data_PT2
 data_PT2 <- read_csv("../data/primary/Protected_MitriRock_T2.csv")
@@ -79,6 +83,7 @@ data_PT2 <- data_PT2 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -A, -B, -C)|>
   mutate('Tourist Access'= "No")
+save(data, file = "../data/processed/Q6_dataPT2.Rdata")
 
 #Data_PT3
 data_PT3 <- read_csv("../data/primary/Protected_MitriRock_T3.csv")
@@ -95,6 +100,7 @@ data_PT3 <- data_PT3 |>
   rename("data_tally_group" = `Major Category`)|>
   dplyr::select(-Drive, -Folder, -Project, -Something)|>
   mutate('Tourist Access'= "No")
+save(data, file = "../data/processed/Q6_dataPT3.Rdata")
 
 #to bind all the data
 all_data <- bind_rows(data_T1,
@@ -103,3 +109,4 @@ all_data <- bind_rows(data_T1,
                       data_PT1,
                       data_PT2,
                       data_PT3)
+save(data, file = "../data/processed/Q6_all_data.Rdata")

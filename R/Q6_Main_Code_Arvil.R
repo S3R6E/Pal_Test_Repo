@@ -140,4 +140,5 @@ ggsave(file="..//outputs/figures/Tourist_Access_Plot1.png",
        dpi = 300)
 ggsave(file="..//outputs/figures/Tourist_Access_Plot1.pdf",
        width = 7, height = 5, units = "in")
+
   
