@@ -255,6 +255,7 @@ Q6.All_Data2 <- bind_rows(data_HeliC22_T1,
 save(Q6.All_Data2, file = "../data/processed/Q6.All_Data2.Rdata")
 
 load(file = "../data/processed/Q6.All_Data2.Rdata")
+
 ##to plot the Hardcoral cover in each site
 plot1b <- Q6.All_Data2 |> 
   group_by(Site, Year) |> 
@@ -295,12 +296,21 @@ plot1a <- Q6.All_Data2 |> ggplot() +
 
 plot1a
 
+
+library(tidyverse)
+library(rstan)
+library(brms)
+library(tidybayes)
+library(DHARMa)
+library(emmeans)
+library(patchwork)
+
 ##Binomial Model by Site. 
 
 form2 <- bf(count_groupcode | trials(total) ~ Site + (1 | Transect),
            family = binomial(link = "logit"))
 
-##Modelling -- To set the priors
+bf##Modelling -- To set the priors
 
 get_prior(form2, data=Q6.All_Data2)
 
@@ -391,7 +401,7 @@ plot3 <- Q6.All_Data2 |> ggplot() +
     theme(axis.text.x = element_text(angle=30, hjust = 1))
 plot3
 
-plot2 <- all_data |>
+plot2 <- Q6.All_Data2 |>
   group_by(Site) |>
   summarise(Mean = mean(cover),
             SD = sd(cover)) |>
@@ -404,7 +414,7 @@ plot2 <- all_data |>
   theme_classic(10)
 plot2
 
-plot3 <- all_data |> ggplot() +
+plot3 <- Q6.All_Data2|> ggplot() +
   geom_boxplot(aes(x = Site, y = cover, fill = tourist_access)) +
   ggtitle("Hard Coral Cover") +
   theme(axis.text.x = element_text(angle=30, hjust = 1))
