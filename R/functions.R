@@ -185,3 +185,15 @@ make_brms_dharma_res <- function(brms_model, seed = 10, ...) {
                 ...
             )
 }
+
+## A function for converting fish counts and biomass to summary
+fish_survey_to_summary <- function(dat) {
+  dat |>
+    select(1,4,8,12) |> 
+    dplyr::rename(sci_name = 1, com_name = 2, count = 3, biomass = 4) |> 
+    slice(-1) |> 
+    mutate(count = as.integer(count), biomass = as.numeric(biomass)) |> 
+    group_by(sci_name, com_name) |> 
+    summarise(total_count = sum(count), total_biomass = sum(biomass)) |> 
+    ungroup()
+}
