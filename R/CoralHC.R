@@ -109,8 +109,13 @@ all_data <- bind_rows(data,
                       data_T3,
                       data_PT1,
                       data_PT2,
+<<<<<<< HEAD
                       data_PT3) |> 
   dplyr::rename(tourist_access = 'Tourist Access')
+=======
+                      data_PT3) |>
+  dplyr::rename(tourist_access = `Tourist Access`)
+>>>>>>> 8ea8d0f00a93e74bba6572529d8e837b80992256
  
 ## Exploratory data analysis
 
@@ -133,6 +138,7 @@ ggsave(file = "../outputs/figures/tourist_access_plot1.png",
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
 
+<<<<<<< HEAD
 library(brms)
 
 glimpse(all_data)
@@ -142,10 +148,46 @@ form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site) + (1| T
 
 model1 <- brm(form,
               data=all_data)
+=======
+library(rstan)
+library(brms)
+library(DHARMa)
+library(patchwork)
+
+glimpse(all_data)
+
+set.seed(3001)
+
+form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site),
+           family = binomial(link = "logit"))
+
+get_prior(form, data=all_data)
+
+priors <- prior(normal(0,1), class = "Intercept") +
+  prior(normal(0,1), class = "b") +
+  prior(student_t(3,0,2), class = "sd")
+
+model1 <- brm(form, 
+              data = all_data,
+              prior = priors,
+              chains = 3,
+              iter = 4000,
+              warmup = 2000,
+              thin = 10,
+              sample_prior = "only",
+              backend = "rstan")
+
+model1 |> conditional_effects() |> plot()
+
+model1 <- model1 |> 
+  update(sample_prior = "yes")
+
+>>>>>>> 8ea8d0f00a93e74bba6572529d8e837b80992256
 model1 |> conditional_effects() |> plot()
 
 model1 |> plot()
 
+<<<<<<< HEAD
 form <- bf(count_groupcode | trials(total) ~ tourist_access + (1 | Site) + (1| Transect),
            family = beta_binomial(link = "logit"))
 model2 <- brm(form,
@@ -156,3 +198,27 @@ model2 |> plot()
 get_prior(form, data=all_data)
 
 summary(model2)
+=======
+summary(model1)
+
+model1$fit |> stan_trace()
+
+model1$fit |> stan_ac()
+
+model1$fit |> stan_rhat()
+
+model1$fit |> stan_ess()
+
+model1 |> pp_check(type = "dens_overlay", ndraws = 100)
+
+resids <- model1 |> make_brms_dharma_res(integerResponse = FALSE)
+
+testUniformity(resids)
+
+plotResiduals(resids, form = factor(rep(1, nrow(all_data))))
+
+plotResiduals(resids)
+
+testDispersion(resids)
+``
+>>>>>>> 8ea8d0f00a93e74bba6572529d8e837b80992256
