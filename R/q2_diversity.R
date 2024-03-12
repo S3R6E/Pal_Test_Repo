@@ -94,3 +94,4 @@ data_rc_cover <-
   mutate(COUNT = ifelse(is.na(COUNT), 0, COUNT),
          TOTAL = max(TOTAL, na.rm = TRUE)
   )
+

@@ -9,6 +9,7 @@ cpce_classif_to_points <- function(dat) {
     dplyr::select(`Frame image name`, `Major Category`, total, count_groupcode) 
 }
 
+
 ## A function for converting classifications to points
 cpce_raw_classif_to_points <- function(dat) {
   dat |>
@@ -184,4 +185,3 @@ make_brms_dharma_res <- function(brms_model, seed = 10, ...) {
                 ...
             )
 }
-

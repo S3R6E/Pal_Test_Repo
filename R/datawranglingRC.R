@@ -174,3 +174,4 @@ data_rc_cover %>%
   ggplot(aes(y = cover, x = date, colours=site_reef_type, group=site_reef_zone)) +
   geom_line()+
   geom_point()
+
