@@ -5,9 +5,7 @@ source("../Pal_Test_Repo/R/functions.R")
 
 ##reading the data from the primary data folder
 data <- read_csv("../Pal_Test_Repo/data/primary/DiveSite_AbdeensRock_T1.csv")
-glimpse(data)
 data_T2 <- read_csv("../Pal_Test_Repo/data/primary/DiveSite_AbdeensRock_T2.csv")
-glimpse(data_T2)
 data_T3 <- read_csv("../Pal_Test_Repo/data/primary/DiveSite_AbdeensRock_T3.csv")
 data_PT1 <- read_csv("../Pal_Test_Repo/data/primary/Protected_MitriRock_T1.csv")
 data_PT2 <- read_csv("../Pal_Test_Repo/data/primary/Protected_MitriRock_T2.csv")
@@ -120,6 +118,40 @@ all_data <- bind_rows(data,
                       data_PT3) |>
   dplyr::rename(tourist_access = `Tourist Access`)
 
+##Tally up Points
+#| label: count
+All_Dat2 <-
+  All_Dat2 |> 
+  dplyr::group_by(across(
+    c(starts_with("Site"),
+      Year,
+      Transect,
+      data_tally_group,
+      tourist_access))) |>
+  summarise(count_groupcode = sum(total), .groups = "keep") |> 
+  ungroup(Substrate) |>
+  mutate(total = sum(count_groupcode)) |>
+  ungroup() 
+dat |> as.data.frame() |> head()
+
+##Recode data
+
+All_Dat2 <- 
+  All_Dat2 |>
+  mutate(Transect = paste0(Site, Year, tourist_acces)) 
+dat |> as.data.frame() |> head()
+
+##Time Series Plot
+All_Data2 |>
+  filter(data_tally_group == "HC") |> 
+  ggplot(aes(y =  100*count_groupcode/total, x = Year, colour = factor(tourist_access))) +
+  geom_point() +
+  geom_line(aes(group = Transect)) + 
+  scale_y_continuous("Hard coral cover (%)") +
+  scale_x_discrete("Year") + 
+  theme_classic() +
+  facet_wrap(~data_tally_group) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
  
 ## Exploratory data analysis
 
