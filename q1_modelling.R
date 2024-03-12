@@ -19,13 +19,13 @@ library(emmeans)
 source('~/Documents/GitHub/stats_workshop_public/ws/helperFunctions.R')
 
 ##Load the data
-load("../Pal_Test_Repo/data/processed/q1_data_rc_cover.RData")
+load("../data/processed/q1_data_rc_cover.RData")
 data_rc_cover<- data_rc_cover |>
   mutate(f.type=as.factor(type),
          f.transect_name=as.factor(transect_name),
          f.Side=as.factor(Side))
 
-## Binomial model
+## Binomial model ####
 # HC ~ f.type + (1|f.transect_name)  + (1|f.Side)
 
 ### Define priors
@@ -126,4 +126,102 @@ model1 |>
   )
 
 
+## Beta Binomial ####
+# HC ~ f.type + (1|f.transect_name)  + (1|f.Side)
+
+### Define priors
+
+
+#| label: define priors
+data_rc_cover |>
+  group_by(f.type) |>
+  summarise(
+    qlogis(mean(cover)),
+    qlogis(sd(cover)))
+
+priors <- prior(normal(0, 1), class = "Intercept") +
+  prior(normal(0, 1), class =  "b") +
+  prior(student_t(3, 0, 1), class = "sd") +
+  prior(gamma(2, 0.5), class = "phi")
+
+
+### Fit model with priors
+
+form <- bf(count_groupcode | trials(total) ~ f.type +
+             (1|f.transect_name),
+           family =  beta_binomial(link =  "logit"))
+
+model2 <- brm(form,
+              data = data_rc_cover,
+              prior = priors,
+              sample_prior = "yes",
+              iter =  5000,
+              warmup =  1000,
+              chains =  3,
+              cores =  3,
+              thin =  5,
+              refresh = 0,
+              control = list(adapt_delta=0.99)
+)
+
+
+model2 |>
+  conditional_effects() |> 
+  plot() |>
+  _[[1]] +
+  geom_point(data = data_rc_cover, aes(y = count_groupcode/total, x = f.type), inherit.aes = FALSE)
+
+
+#prior vs posterior
+
+model2 |> SUYR_prior_and_posterior()
+
+
+### MCMC sampling diagnostics
+
+model2$fit |> stan_trace()
+model2$fit |> stan_ac()
+model2$fit |> stan_rhat()
+model2$fit |> stan_ess()
+
+### Posterior probability checks
+
+#| label: pp checks
+
+model2 |> pp_check(type = 'dens_overlay', ndraws =  100)
+
+
+### Model validation
+
+
+resids <- model2 |> make_brms_dharma_res(integerResponse = FALSE)
+dev.off()
+testUniformity(resids)
+plotResiduals(resids, form = factor(rep(1, nrow(data_rc_cover))))
+plotResiduals(resids)
+testDispersion(resids)
+
+
+model2 |>
+  emmeans(~f.type) |>
+  #regrid() |> 
+  pairs() |> 
+  gather_emmeans_draws() |>
+  mutate(.value=exp(.value)) |> 
+  summarise(median_hdci(.value),
+            Pl = mean(.value < 1),
+            Pg = mean(.value > 1),
+            Px = mean(.value >0.70 & .value <1.30)
+  )
  
+
+## evaluating coral cover data
+
+data_rc_cover |> 
+  ggplot(aes(x=cover))+
+  geom_histogram()+
+  facet_grid("type")
+
+data_rc_cover |> 
+  group_by(transect_name, type) |> 
+  summarise(m.count=sum(total), cover=cover)
