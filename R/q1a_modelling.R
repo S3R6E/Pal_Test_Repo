@@ -31,7 +31,7 @@ data_rc_cover<- data_rc_cover |>
          f.image_id=as.factor(image_id))
 
 ## Binomial model
-# HC ~ f.type + (1|f.transect_name)  + (1|f.Side) 
+# HC ~ f.type + (1|f.transect_name)  + (1|f.Side) + (1|f.image_id)
 
 ### Define priors
 
@@ -44,44 +44,29 @@ data_rc_cover |>
     qlogis(sd(cover)))
 
 priors <- prior(normal(0, 1), class = "Intercept") +
-  prior(normal(0, 1), class =  "b") + #b=slope
+  prior(normal(0, 0.5), class =  "b") + #b=slope
   prior(student_t(3, 0, 1), class = "sd") #sd=standard deviation
 
 
-### Fit prior only model
+### Fit prior model with priors
 
-#| label: fit prior only
-#| cache: true
 
-form <- bf(count_groupcode | trials(total) ~ f.type + (1|f.transect_name) + (1|f.Side),
+form <- bf(count_groupcode | trials(total) ~ f.type + (1|f.transect_name) + (1|f.Side) + (1|f.image_id),
            family =  binomial(link =  "logit"))
 
 model1 <- brm(form,
               data = data_rc_cover,
               prior = priors,
-              sample_prior = "only",
-              iter =  5000,
+              iter =  6000,
               warmup =  1000,
               chains =  3,
               cores =  3,
-              thin =  5,
-              refresh = 0
+              thin =  8,
+              refresh = 0,
+              control=list(adapt_delta=0.99),
+              sample_prior = "yes"
 )
 
-
-model1 |>
-  conditional_effects() |> 
-  plot() |>
-  _[[1]] +
-  geom_point(data = data_rc_cover, aes(y = count_groupcode/total, x = f.type), inherit.aes = FALSE)
-
-### Fit full model
-
-
-# fit with prior
-model1 <- update(model1, sample_prior = "yes") 
-
-#partial 1
 
 model1 |>
   conditional_effects() |> 
@@ -127,9 +112,7 @@ model1 |>
   gather_emmeans_draws() |>
   mutate(.value=exp(.value)) |> 
   summarise(median_hdci(.value),
-            Pl = mean(.value < 0.95), #Understimation
-            Pg = mean(.value > 1.05), # Over-estimation
-            Px = mean(.value > 0.90 & .value< 1.10))
-
-
+            Pl = mean(.value < 0.95), #Underestimation
+            Pg = mean(.value > 1.05), #Over-estimation
+            Px = mean(.value > 0.80 & .value< 1.20))
 
