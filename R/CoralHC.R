@@ -1,6 +1,7 @@
 library(tidyverse)
 
-source("functions.R")
+
+source("C:/Users/asust/OneDrive/Desktop/Rstudio/Pal_Test_Repo/Copyoffunctions.R")
 
 ##reading the data from the primary data folder
 data <- read_csv("../data/primary/DiveSite_AbdeensRock_T1.csv")
@@ -11,9 +12,10 @@ data_T3 <- read_csv("../data/primary/DiveSite_AbdeensRock_T3.csv")
 data_PT1 <- read_csv("../data/primary/Protected_MitriRock_T1.csv")
 data_PT2 <- read_csv("../data/primary/Protected_MitriRock_T2.csv")
 data_PT3 <- read_csv("../data/primary/Protected_MitriRock_T3.csv")
-
-##checking data
 glimpse(data)
+
+
+##To process the data
 
 ##Transect 1
 data <- data |>
@@ -103,7 +105,7 @@ data_PT3 <- data_PT3 |>
   dplyr::select(-Drive, -Folder,-A,-B)|>
   mutate('Tourist Access'= "no")
 
-
+## to bind all the data
 all_data <- bind_rows(data,
                       data_T2,
                       data_T3,
@@ -125,7 +127,7 @@ plot1 <-all_data |>
   geom_pointrange(aes(ymin=lower, ymax=upper)) +
   scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
   theme_classic(10)
-
+plot1
 ggsave(file = "../outputs/figures/tourist_access_plot1.png",
        width = 700, height = 500, units = "px",
       dpi=300)
