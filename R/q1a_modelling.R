@@ -201,7 +201,7 @@ model2 |>
   summarise(median_hdci(.value),
             Pl = mean(.value < 1),
             Pg = mean(.value > 1),
-            Px = mean(.value >0.70 & .value <1.30)
+            Px = mean(.value >0.80 & .value <1.30)
   )
 
 
@@ -215,3 +215,4 @@ data_rc_cover |>
 data_rc_cover |> 
   group_by(transect_name, type) |> 
   summarise(m.count=sum(total), cover=cover)
+
