@@ -79,7 +79,7 @@ data_PagaC23_T1 <- data_PagaC23_T1 |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = 'Major Category')|>
   dplyr::select(-Drive, -A)|>
-  mutate('tourist_access'= "Yes") |> 
+  mutate('tourist_access'= "No") |> 
   mutate('Year'= "2023")
 
 data_PagaC23_T2 <- read_csv("../data/primary/Pagawanen_corals2_23.csv")
@@ -96,7 +96,7 @@ data_PagaC23_T2 <- data_PagaC23_T2 |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = 'Major Category')|>
   dplyr::select(-Drive, -A)|>
-  mutate('tourist_access'= "Yes") |> 
+  mutate('tourist_access'= "No") |> 
   mutate('Year'= "2023")
 
 data_PagaC23_T3 <- read_csv("../data/primary/Pagawanen_corals3_23.csv")
@@ -113,7 +113,7 @@ data_PagaC23_T3 <- data_PagaC23_T3 |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = 'Major Category')|>
   dplyr::select(-Drive, -A)|>
-  mutate('tourist_access'= "Yes") |> 
+  mutate('tourist_access'= "No") |> 
   mutate('Year'= "2023")
 
 
@@ -181,21 +181,23 @@ data_HeliC22_T3 <- data_HeliC22_T3 |>
   mutate('tourist_access'= "Yes") |> 
   mutate('Year'= "2022")
 
+
+
 data_PagaC22_T1 <- read_csv("../data/primary/Pagawanen_T1.csv")
 glimpse(data_PagaC22_T1)
 
 data_PagaC22_T1 <- data_PagaC22_T1 |>
   cpce_classif_to_points() |>
   separate('Frame image name',
-           into = c("Drive", "A","Site","Transect","Photo"),
+           into = c("Drive","A","B","C","D","E","F","Site","Transect","Photo"),
            sep = "\\\\"
   )|>
   filter(`Major Category` == "HC") |>
   droplevels() |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = 'Major Category')|>
-  dplyr::select(-Drive, -A)|>
-  mutate('tourist_access'= "Yes") |> 
+  dplyr::select(-Drive, -A, -B, -C, -D, -E, -F )|>
+  mutate('tourist_access'= "No") |> 
   mutate('Year'= "2022")
 
 data_PagaC22_T2 <- read_csv("../data/primary/Pagawanen_T2.csv")
@@ -204,15 +206,15 @@ glimpse(data_PagaC22_T2)
 data_PagaC22_T2 <- data_PagaC22_T2 |>
   cpce_classif_to_points() |>
   separate('Frame image name',
-           into = c("Drive","A","B","C","D", "E", "Site","Transect","Photo"),
+           into = c("Drive","A","B","C","D","E","F","Site","Transect","Photo"),
            sep = "\\\\"
   )|>
   filter(`Major Category` == "HC") |>
   droplevels() |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = 'Major Category')|>
-  dplyr::select(-Drive, -A, -B, -C, -D, -E,)|>
-  mutate('tourist_access'= "Yes") |> 
+  dplyr::select(-Drive, -A, -B, -C, -D, -E, -F )|>
+  mutate('tourist_access'="No") |> 
   mutate('Year'= "2022")
 
 data_PagaC22_T3 <- read_csv("../data/primary/Pagawanen_T3.csv")
@@ -221,15 +223,15 @@ glimpse(data_PagaC22_T3)
 data_PagaC22_T3 <- data_PagaC22_T3 |>
   cpce_classif_to_points() |>
   separate('Frame image name',
-           into = c("Drive", "A","Site","Transect","Photo"),
+           into = c("Drive","A","B","C","D","E","F","Site","Transect","Photo"),
            sep = "\\\\"
   )|>
   filter(`Major Category` == "HC") |>
   droplevels() |>
   mutate(cover = count_groupcode / total) |>
   rename("data_tally_group" = 'Major Category')|>
-  dplyr::select(-Drive, -A)|>
-  mutate('tourist_access'= "Yes") |> 
+  dplyr::select(-Drive, -A, -B, -C, -D, -E, -F )|>
+  mutate('tourist_access'= "No") |> 
   mutate('Year'= "2022")
 
 All_Data2 <- bind_rows(data_HeliC22_T1,
@@ -245,7 +247,8 @@ All_Data2 <- bind_rows(data_HeliC22_T1,
                       data_PagaC23_T2,
                       data_PagaC23_T3)
 
-save(All_Data2, file = "../data/primary/All_Data2.Rdata")
+save(Q6.All_Data2, file = "../data/processed/Q6.All_Data2.Rdata")
 
 
-load(file = "../data/primary/All_Data2.Rdata")
+load(file = "../Pal_Test_Repo/data/processed/Q6.All_Data2.Rdata")
+
