@@ -8,7 +8,10 @@ cpce_classif_to_points <- function(dat) {
       count_groupcode = n()) |> 
     dplyr::select(`Frame image name`, `Major Category`, total, count_groupcode) 
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> ff690f79c7b645d9359e5f2f6d1ad68e757043c9
 
 ## A function for converting classifications to points
 cpce_raw_classif_to_points <- function(dat) {
@@ -20,6 +23,10 @@ cpce_raw_classif_to_points <- function(dat) {
               count_groupcode = n()) |> 
     dplyr::select(`Frame image name`, `Major Category`, `Raw Data`, total, count_groupcode) 
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> ff690f79c7b645d9359e5f2f6d1ad68e757043c9
 
 
 SUYR_prior_and_posterior <- function(mod) {
@@ -188,6 +195,8 @@ make_brms_dharma_res <- function(brms_model, seed = 10, ...) {
 
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 ## A function for converting fish counts and biomass to summary by taxa
 fish_survey_to_taxa <- function(dat) {
   dat |>
@@ -213,3 +222,4 @@ fish_survey_to_summary <- function(dat) {
 }
 
 >>>>>>> 64ad24e5288f92a2209a347280120080b5aa2c2b
+>>>>>>> ff690f79c7b645d9359e5f2f6d1ad68e757043c9
