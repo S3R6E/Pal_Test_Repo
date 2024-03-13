@@ -1,0 +1,136 @@
+ID;Date;Location;Site;Type;Transect;Survey;Time_protection;Depth;Rugosity;Tide_LAT;Time;Observer;Comment
+DEP_P1_T1_1;03/05/2023;Depla;DEP_P1;Protected;T1;1;0;6;23,18;0,9;14:00;AC;
+DEP_P1_T2_1;03/05/2023;Depla;DEP_P1;Protected;T2;1;0;6;26,27;0,8;14:20;AC;
+DEP_P1_T3_1;03/05/2023;Depla;DEP_P1;Protected;T3;1;0;6;22,13;0,8;14:40;AC;
+DEP_P2_T1_1;03/05/2023;Depla;DEP_P2;Protected;T1;1;0;5,5;25,2;0,9;14:00;VB;
+DEP_P2_T2_1;03/05/2023;Depla;DEP_P2;Protected;T2;1;0;5,5;22,5;0,8;14:20;VB;
+DEP_P2_T3_1;03/05/2023;Depla;DEP_P2;Protected;T3;1;0;5,5;24,7;0,8;14:40;VB;
+DEP_U3_T1_1;03/05/2023;Depla;DEP_U3;Unprotected;T1;1;0;7;26,98;1,5;09:00;AC;
+DEP_U3_T2_1;03/05/2023;Depla;DEP_U3;Unprotected;T2;1;0;7;24,84;1,5;09:20;AC;
+DEP_U3_T3_1;03/05/2023;Depla;DEP_U3;Unprotected;T3;1;0;7;26,25;1,5;09:40;AC;
+DEP_U4_T1_1;03/05/2023;Depla;DEP_U4;Unprotected;T1;1;0;7;21,7;1,5;09:00;VB;
+DEP_U4_T2_1;03/05/2023;Depla;DEP_U4;Unprotected;T2;1;0;7;24,1;1,5;09:20;VB;
+DEP_U4_T3_1;03/05/2023;Depla;DEP_U4;Unprotected;T3;1;0;7;21,7;1,5;09:40;VB;
+SIL_P1_T1_X1;04/05/2023;Silanga;SIL_P1;Protected;T1;X1;0;6;24,9;1,6;09:00;NT;Surprisingly high coral cover, resampled to verify
+SIL_P1_T2_X1;04/05/2023;Silanga;SIL_P1;Protected;T2;X1;0;6;22,5;1,6;09:20;NT;Surprisingly high coral cover, resampled to verify
+SIL_P1_T3_X1;04/05/2023;Silanga;SIL_P1;Protected;T3;X1;0;6;25;1,6;09:40;NT;Surprisingly high coral cover, resampled to verify
+SIL_P2_T1_1;06/05/2023;Silanga;SIL_P2;Protected;T1;1;0;5;26,38;1,1;14:00;AC;
+SIL_P2_T2_1;06/05/2023;Silanga;SIL_P2;Protected;T2;1;0;5;23,6;1;14:20;AC;
+SIL_P2_T3_1;06/05/2023;Silanga;SIL_P2;Protected;T3;1;0;5;25,86;0;14:40;AC;
+SIL_U1_T1_X1;04/05/2023;Silanga;SIL_U1;Unprotected;T1;X1;0;3,5;20,26;0,9;14:00;AC;First transect fully in the mud, resampled the whole site
+SIL_U1_T2_X1;04/05/2023;Silanga;SIL_U1;Unprotected;T2;X1;0;3,5;22,42;0,8;14:20;AC;First transect fully in the mud, resampled the whole site
+SIL_U1_T3_X1;04/05/2023;Silanga;SIL_U1;Unprotected;T3;X1;0;3,5;22,21;0,7;14:40;AC;First transect fully in the mud, resampled the whole site
+SIL_U2_T1_X1;04/05/2023;Silanga;SIL_U2;Unprotected;T1;X1;0;3,5;23,6;0,9;14:00;NT;
+SIL_U2_T2_X1;04/05/2023;Silanga;SIL_U2;Unprotected;T2;X1;0;3,5;28,7;0,8;14:20;NT;
+SIL_U2_T3_X1;04/05/2023;Silanga;SIL_U2;Unprotected;T3;X1;0;3,5;24,6;0,7;14:40;NT;
+PAN_P2_T1_1;05/05/2023;Pangatalan;PAN_P2;Protected;T1;1;7;7;25,3;1,7;09:00;VB;
+PAN_P2_T2_1;05/05/2023;Pangatalan;PAN_P2;Protected;T2;1;7;7;24,2;1,7;09:20;VB;
+PAN_P2_T3_1;05/05/2023;Pangatalan;PAN_P2;Protected;T3;1;7;7;24,45;1,7;09:40;VB;
+PAN_P4_T1_1;05/05/2023;Pangatalan;PAN_P4;Protected;T1;1;7;7;23,8;1,7;09:00;LT;
+PAN_P4_T2_1;05/05/2023;Pangatalan;PAN_P4;Protected;T2;1;7;7;24,4;1,7;09:20;LT;
+PAN_P4_T3_1;05/05/2023;Pangatalan;PAN_P4;Protected;T3;1;7;7;25,1;1,7;09:40;LT;
+PAN_U2_T1_1;05/05/2023;Pangatalan;PAN_U2;Unprotected;T1;1;7;6;23,6;1;14:00;LT;
+PAN_U2_T2_1;05/05/2023;Pangatalan;PAN_U2;Unprotected;T2;1;7;6;24,3;0,9;14:20;LT;
+PAN_U2_T3_1;05/05/2023;Pangatalan;PAN_U2;Unprotected;T3;1;7;6;22,6;0,8;14:40;LT;
+PAN_U3_T1_1;07/05/2023;Pangatalan;PAN_U3;Unprotected;T1;1;7;7;24,7;1,8;09:00;VB;
+PAN_U3_T2_1;07/05/2023;Pangatalan;PAN_U3;Unprotected;T2;1;7;7;25,25;1,9;09:20;VB;
+PAN_U3_T3_1;07/05/2023;Pangatalan;PAN_U3;Unprotected;T3;1;7;7;24,6;1,9;09:40;VB;
+SAN_P1_T1_X1;06/05/2023;Sandoval;SAN_P1;Protected;T1;X1;0;7;24,4;1,8;09:00;NT;Sampled again because of surprisingly high coral cover
+SAN_P1_T2_X1;06/05/2023;Sandoval;SAN_P1;Protected;T2;X1;0;7;23,9;1,8;09:20;NT;Sampled again because of surprisingly high coral cover
+SAN_P1_T3_X1;06/05/2023;Sandoval;SAN_P1;Protected;T3;X1;0;7;23,7;1,9;09:40;NT;Sampled again because of surprisingly high coral cover
+SAN_P2_T1_1;06/05/2023;Sandoval;SAN_P2;Protected;T1;1;0;7;24,6;1,8;09:00;LT;
+SAN_P2_T2_1;06/05/2023;Sandoval;SAN_P2;Protected;T2;1;0;7;23,4;1,8;09:20;LT;
+SAN_P2_T3_1;06/05/2023;Sandoval;SAN_P2;Protected;T3;1;0;6;25,1;1,9;09:40;LT;
+SAN_U3_T1_X1;06/05/2023;Sandoval;SAN_U3;Unprotected;T1;X1;0;7;23,9;1,9;11:00;NT;Sampled again because of surprisingly high coral cover
+SAN_U3_T2_X1;06/05/2023;Sandoval;SAN_U3;Unprotected;T2;X1;0;7;23,22;1,8;11:20;NT;Sampled again because of surprisingly high coral cover
+SAN_U3_T3_X1;06/05/2023;Sandoval;SAN_U3;Unprotected;T3;X1;0;7;24,2;1,8;11:40;NT;Sampled again because of surprisingly high coral cover
+SAN_U4_T1_1;06/05/2023;Sandoval;SAN_U4;Unprotected;T1;1;0;7;26;1,9;11:00;LT;
+SAN_U4_T2_1;06/05/2023;Sandoval;SAN_U4;Unprotected;T2;1;0;7;23,4;1,8;11:20;LT;
+SAN_U4_T3_1;06/05/2023;Sandoval;SAN_U4;Unprotected;T3;1;0;7;24,2;1,8;11:40;LT;
+SAN_U2_T1_X1;04/05/2023;Sandoval;SAN_U2;Unprotected;T1;X1;0;7;23,6;0,9;14:00;NT;Sampled again because of surprisingly high coral cover
+SAN_U2_T2_X1;04/05/2023;Sandoval;SAN_U2;Unprotected;T2;X1;0;7;24;0,8;14:20;NT;Sampled again because of surprisingly high coral cover
+SAN_U2_T3_X1;04/05/2023;Sandoval;SAN_U2;Unprotected;T3;X1;0;7;24,9;0,7;14:40;NT;Sampled again because of surprisingly high coral cover
+DEP_U7_T1_X1;21/06/2023;Depla;DEP_U7;Unprotected;T1;X1;0;3;24,9;1,5;08:00;NT;Sampled again because of surprisingly high coral cover
+DEP_U7_T2_X1;21/06/2023;Depla;DEP_U7;Unprotected;T2;X1;0;3;24,3;1,6;08:20;NT;Sampled again because of surprisingly high coral cover
+DEP_U7_T3_X1;21/06/2023;Depla;DEP_U7;Unprotected;T3;X1;0;3;24,6;1,7;08:40;NT;Sampled again because of surprisingly high coral cover
+DEP_U8_T1_X1;21/06/2023;Depla;DEP_U8;Unprotected;T1;X1;0;3,5;22,3;1,8;09:00;NT;Sampled again because of surprisingly high coral cover
+DEP_U8_T2_X1;21/06/2023;Depla;DEP_U8;Unprotected;T2;X1;0;3,5;24,4;1,8;09:20;NT;Sampled again because of surprisingly high coral cover
+DEP_U8_T3_X1;21/06/2023;Depla;DEP_U8;Unprotected;T3;X1;0;3,5;23,1;1,9;09:40;NT;Sampled again because of surprisingly high coral cover
+SIL_U2_T1_X2;22/06/2023;Silanga;SIL_U2;Unprotected;T1;X2;0;3,5;23,6;1,6;09:00;NT;Sampled again because of surprisingly high coral cover
+SIL_U2_T2_X2;22/06/2023;Silanga;SIL_U2;Unprotected;T2;X2;0;3,5;25,6;1,7;09:20;NT;Sampled again because of surprisingly high coral cover
+SIL_U2_T3_X2;22/06/2023;Silanga;SIL_U2;Unprotected;T3;X2;0;3,5;24,4;1,7;09:40;NT;Sampled again because of surprisingly high coral cover
+DEP_P3_T1_1;10/07/2023;Depla;DEP_P3;Protected;T1;1;0;4;24,9;1;08:00;VB;
+DEP_P3_T2_1;10/07/2023;Depla;DEP_P3;Protected;T2;1;0;4;25;1;08:20;VB;
+DEP_P3_T3_1;10/07/2023;Depla;DEP_P3;Protected;T3;1;0;4;25,8;1;08:40;VB;
+DEP_U1_T1_1;11/07/2023;Depla;DEP_U1;Unprotected;T1;1;0;7;24,65;1;13:00;VB;
+DEP_U1_T2_1;11/07/2023;Depla;DEP_U1;Unprotected;T2;1;0;7;24,5;1;13:20;VB;
+DEP_U1_T3_1;11/07/2023;Depla;DEP_U1;Unprotected;T3;1;0;7;25,9;1,1;13:40;VB;
+DEP_U2_T1_1;11/07/2023;Depla;DEP_U2;Unprotected;T1;1;0;7;25;1,1;14:00;VB;
+DEP_U2_T2_1;11/07/2023;Depla;DEP_U2;Unprotected;T2;1;0;7;26,6;1,1;14:20;VB;
+DEP_U2_T3_1;11/07/2023;Depla;DEP_U2;Unprotected;T3;1;0;7;27;1,1;14:40;VB;
+DEP_U5_T1_1;10/07/2023;Depla;DEP_U5;Unprotected;T1;1;0;6;25,5;1,4;14:00;AC;
+DEP_U5_T2_1;10/07/2023;Depla;DEP_U5;Unprotected;T2;1;0;6;26,8;1,4;14:20;AC;
+DEP_U5_T3_1;10/07/2023;Depla;DEP_U5;Unprotected;T3;1;0;6;24,4;1,4;14:40;AC;
+DEP_U6_T1_1;10/07/2023;Depla;DEP_U6;Unprotected;T1;1;0;5;23,9;1,3;13:00;AC;
+DEP_U6_T2_1;10/07/2023;Depla;DEP_U6;Unprotected;T2;1;0;5;22,7;1,3;13:20;AC;
+DEP_U6_T3_1;10/07/2023;Depla;DEP_U6;Unprotected;T3;1;0;5;26,4;1,4;13:40;AC;
+DEP_U8_T1_1;17/07/2023;Depla;DEP_U8;Unprotected;T1;1;0;4;23,3;1,9;11:00;VB;
+DEP_U8_T2_1;17/07/2023;Depla;DEP_U8;Unprotected;T2;1;0;4;22,5;1,8;11:20;VB;
+DEP_U8_T3_1;17/07/2023;Depla;DEP_U8;Unprotected;T3;1;0;4;23,1;1,8;11:40;VB;
+PAN_P1_T1_1;11/07/2023;Pangatalan;PAN_P1;Protected;T1;1;7;8;24,1;1,2;08:00;AC;
+PAN_P1_T2_1;11/07/2023;Pangatalan;PAN_P1;Protected;T2;1;7;8;24,6;1,2;08:20;AC;
+PAN_P1_T3_1;11/07/2023;Pangatalan;PAN_P1;Protected;T3;1;7;8;23,1;1,1;08:40;AC;
+PAN_P3_T1_1;11/07/2023;Pangatalan;PAN_P3;Protected;T1;1;7;7;22,45;1,1;09:00;AC;
+PAN_P3_T2_1;11/07/2023;Pangatalan;PAN_P3;Protected;T2;1;7;7;25,35;1,1;09:20;AC;
+PAN_P3_T3_1;11/07/2023;Pangatalan;PAN_P3;Protected;T3;1;7;7;24,2;1;09:40;AC;
+PAN_U1_T1_1;12/07/2023;Pangatalan;PAN_U1;Unprotected;T1;1;7;8;25,7;1,4;08:00;VB;
+PAN_U1_T2_1;12/07/2023;Pangatalan;PAN_U1;Unprotected;T2;1;7;8;26,1;1,4;08:20;VB;
+PAN_U1_T3_1;12/07/2023;Pangatalan;PAN_U1;Unprotected;T3;1;7;8;24;1,3;08:40;VB;
+PAN_U4_T1_1;12/07/2023;Pangatalan;PAN_U4;Unprotected;T1;1;7;5;24,5;1,3;09:00;VB;
+PAN_U4_T2_1;12/07/2023;Pangatalan;PAN_U4;Unprotected;T2;1;7;5;24,7;1,2;09:20;VB;
+PAN_U4_T3_1;12/07/2023;Pangatalan;PAN_U4;Unprotected;T3;1;7;5;24,7;1,2;09:40;VB;
+SAN_P3_T1_1;12/07/2023;Sandoval;SAN_P3;Protected;T1;1;0;7;24,9;0,8;13:00;AC;
+SAN_P3_T2_1;12/07/2023;Sandoval;SAN_P3;Protected;T2;1;0;7;25,9;0,8;13:20;AC;
+SAN_P3_T3_1;12/07/2023;Sandoval;SAN_P3;Protected;T3;1;0;7;25,6;0,8;13:40;AC;
+SAN_U1_T1_1;12/07/2023;Sandoval;SAN_U1;Unprotected;T1;1;0;7,5;24,5;0,8;14:00;AC;
+SAN_U1_T2_1;12/07/2023;Sandoval;SAN_U1;Unprotected;T2;1;0;7,5;24,7;0,8;14:20;AC;
+SAN_U1_T3_1;12/07/2023;Sandoval;SAN_U1;Unprotected;T3;1;0;7,5;26,15;0,8;14:40;AC;
+SAN_U5_T1_1;13/07/2023;Sandoval;SAN_U5;Unprotected;T1;1;0;7;26,2;1,3;10:00;AC;
+SAN_U5_T2_1;13/07/2023;Sandoval;SAN_U5;Unprotected;T2;1;0;7;26,25;1,2;10:20;AC;
+SAN_U5_T3_1;13/07/2023;Sandoval;SAN_U5;Unprotected;T3;1;0;7;25,5;1,2;10:40;AC;
+SAN_U6_T1_1;13/07/2023;Sandoval;SAN_U6;Unprotected;T1;1;0;7;24,3;1,5;09:00;AC;
+SAN_U6_T2_1;13/07/2023;Sandoval;SAN_U6;Unprotected;T2;1;0;7;26,7;1,4;09:20;AC;
+SAN_U6_T3_1;13/07/2023;Sandoval;SAN_U6;Unprotected;T3;1;0;7;25,15;1,4;09:40;AC;
+SAN_U7_T1_1;17/07/2023;Sandoval;SAN_U7;Unprotected;T1;1;0;8;25,4;2;08:00;VB;
+SAN_U7_T2_1;17/07/2023;Sandoval;SAN_U7;Unprotected;T2;1;0;8;26,6;2;08:20;VB;
+SAN_U7_T3_1;17/07/2023;Sandoval;SAN_U7;Unprotected;T3;1;0;8;25,9;2;08:40;VB;
+SAN_U8_T1_1;17/07/2023;Sandoval;SAN_U8;Unprotected;T1;1;0;8;26,3;2;09:00;VB;
+SAN_U8_T2_1;17/07/2023;Sandoval;SAN_U8;Unprotected;T2;1;0;8;23,7;2;09:20;VB;
+SAN_U8_T3_1;17/07/2023;Sandoval;SAN_U8;Unprotected;T3;1;0;8;24,7;2;09:40;VB;
+SIL_P3_T1_1;19/07/2023;Silanga;SIL_P3;Protected;T1;1;0;4;21,5;1,7;08:00;VB;
+SIL_P3_T2_1;19/07/2023;Silanga;SIL_P3;Protected;T2;1;0;4;24,7;1,8;08:20;VB;
+SIL_P3_T3_1;19/07/2023;Silanga;SIL_P3;Protected;T3;1;0;4;23,6;1,9;08:40;VB;
+SIL_U1_T1_1;19/07/2023;Silanga;SIL_U1;Unprotected;T1;1;0;3,5;24,3;1,9;09:00;VB;
+SIL_U1_T2_1;19/07/2023;Silanga;SIL_U1;Unprotected;T2;1;0;3,5;24,2;2;09:20;VB;
+SIL_U1_T3_1;19/07/2023;Silanga;SIL_U1;Unprotected;T3;1;0;3,5;23,6;2;09:40;VB;
+SIL_U3_T1_1;19/07/2023;Silanga;SIL_U3;Unprotected;T1;1;0;3,5;24,7;2;10:00;VB;
+SIL_U3_T2_1;19/07/2023;Silanga;SIL_U3;Unprotected;T2;1;0;3,5;25,1;2,1;10:20;VB;
+SIL_U3_T3_1;19/07/2023;Silanga;SIL_U3;Unprotected;T3;1;0;3,5;25,1;2,1;10:40;VB;
+SIL_P1_T1_1;27/07/2023;Silanga;SIL_P1;Protected;T1;1;0;6;25,4;1,2;08:00;AC;
+SIL_P1_T2_1;27/07/2023;Silanga;SIL_P1;Protected;T2;1;0;6;22,9;1,1;08:30;AC;
+SIL_P1_T3_1;27/07/2023;Silanga;SIL_P1;Protected;T3;1;0;6;24,4;1,1;09:00;AC;
+SIL_U2_T1_1;28/07/2023;Silanga;SIL_U2;Unprotected;T1;1;0;3,5;24,5;1,4;08:00;VB;
+SIL_U2_T2_1;28/07/2023;Silanga;SIL_U2;Unprotected;T2;1;0;3,5;25,3;1,3;08:20;VB;
+SIL_U2_T3_1;28/07/2023;Silanga;SIL_U2;Unprotected;T3;1;0;3,5;24;1,3;08:40;VB;
+SAN_P1_T1_1;28/07/2023;Sandoval;SAN_P1;Protected;T1;1;0;7;22,95;0,7;13:00;AC;
+SAN_P1_T2_1;28/07/2023;Sandoval;SAN_P1;Protected;T2;1;0;7;23,9;0,7;13:20;AC;
+SAN_P1_T3_1;28/07/2023;Sandoval;SAN_P1;Protected;T3;1;0;7;25;0,7;13:40;AC;
+DEP_U7_T1_1;28/07/2023;Depla;DEP_U7;Unprotected;T1;1;0;4;22,2;0,7;14:00;AC;
+DEP_U7_T2_1;28/07/2023;Depla;DEP_U7;Unprotected;T2;1;0;4;21,6;0,7;14:20;AC;
+DEP_U7_T3_1;28/07/2023;Depla;DEP_U7;Unprotected;T3;1;0;4;24,4;0,7;14:40;AC;
+SAN_U3_T1_1;31/07/2023;Sandoval;SAN_U3;Unprotected;T1;1;0;7;26;2,1;09:00;AC;
+SAN_U3_T2_1;31/07/2023;Sandoval;SAN_U3;Unprotected;T2;1;0;7;24,5;2,1;09:20;AC;
+SAN_U3_T3_1;31/07/2023;Sandoval;SAN_U3;Unprotected;T3;1;0;7;26,3;2;09:40;AC;
+SAN_U2_T1_1;31/07/2023;Sandoval;SAN_U2;Unprotected;T1;1;0;7;25,8;1,9;10:00;AC;
+SAN_U2_T2_1;31/07/2023;Sandoval;SAN_U2;Unprotected;T2;1;0;7;25;1,9;10:20;AC;
+SAN_U2_T3_1;31/07/2023;Sandoval;SAN_U2;Unprotected;T3;1;0;7;25,3;1,8;10:40;AC;

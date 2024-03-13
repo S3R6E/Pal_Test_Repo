@@ -186,8 +186,7 @@ make_brms_dharma_res <- function(brms_model, seed = 10, ...) {
             )
 }
 
-<<<<<<< HEAD
-=======
+
 ## A function for converting fish counts and biomass to summary by taxa
 fish_survey_to_taxa <- function(dat) {
   dat |>
@@ -211,5 +210,3 @@ fish_survey_to_summary <- function(dat) {
     summarise(spp_rich = n(), total_count = sum(sum_count), total_biomass = sum(sum_biomass)) |> 
     ungroup()
 }
-
->>>>>>> 64ad24e5288f92a2209a347280120080b5aa2c2b
