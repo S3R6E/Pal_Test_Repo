@@ -1,4 +1,4 @@
-setwd("R")
+setwd("R") #don't run it again, if you are already in the right directory
 
 ## Read in the data from the primary data folder (Transect1)
 data1 <- read_csv("../data/primary/Siete Picados_T1.csv")
