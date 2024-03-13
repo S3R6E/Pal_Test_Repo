@@ -2,7 +2,7 @@
 
 # Data has been wrangled in q1_processes_data. Now we want to estimate coral cover from machine and human annotations and explore the likelyhood of those being different.
 ##Load libraries
-
+rm(list=ls())
 library(tidyverse)
 library(easystats)
 library(knitr)
@@ -19,7 +19,8 @@ library(emmeans)
 source('~/Documents/GitHub/stats_workshop_public/ws/helperFunctions.R')
 
 ##Load the data
-load("../data/processed/q1_data_rc_cover.RData")
+load("../data/processed/q1b_data_si.RData")
+data_rc_cover=data_si_cover
 data_rc_cover<- data_rc_cover |>
   mutate(f.type=as.factor(type),
          f.transect_name=as.factor(transect_name),
