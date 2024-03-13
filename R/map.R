@@ -126,14 +126,14 @@ base_map <-
     pad_y = unit(0.2, "in"),
     style = north_arrow_fancy_orienteering) +
   geom_point(data = jessies_house, aes(y = latitude, x = longitude,
-    colour = "Jessies house"), shape = 16, size =  1) +
+    colour = "Jessies house"), shape = 16, size =  2) +
   geom_point(data = php_cities,
     aes(y = latitude, x = longitude)) +
   geom_text(data = php_cities,
     aes(y = latitude + 0.1,
       x = longitude, label = name), vjust =  0) +
-  scale_colour_manual("", values = c("red", "green", "blue")) +
-  scale_fill_manual("", breaks = "land", values = c("green")) +
+  scale_colour_manual("", values = c("red", "grey20", "skyblue4")) +
+  scale_fill_manual("", breaks = "land", values = c("white")) +
   theme_bw() +
   theme(
     panel.background = element_rect(fill = "#0000ff10")
