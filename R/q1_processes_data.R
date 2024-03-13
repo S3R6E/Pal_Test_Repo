@@ -69,7 +69,8 @@ data_rc_cover <-
   ungroup() 
 
 GROUPS <- data_rc_cover |> pull(GROUP) |> unique()
-filler <- data_rc_cover %>%
+
+filler <- data_rc_cover |>
   dplyr::select(
     starts_with("site"),
     survey_start_date,

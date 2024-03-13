@@ -8,8 +8,7 @@ cpce_classif_to_points <- function(dat) {
       count_groupcode = n()) |> 
     dplyr::select(`Frame image name`, `Major Category`, total, count_groupcode) 
 }
-<<<<<<< HEAD
-=======
+
 
 ## A function for converting classifications to points
 cpce_raw_classif_to_points <- function(dat) {
@@ -21,9 +20,6 @@ cpce_raw_classif_to_points <- function(dat) {
               count_groupcode = n()) |> 
     dplyr::select(`Frame image name`, `Major Category`, `Raw Data`, total, count_groupcode) 
 }
-<<<<<<< HEAD
->>>>>>> dbe02ccf1620e13db72a556b1b3c828e4cef4070
-=======
 
 
 SUYR_prior_and_posterior <- function(mod) {
@@ -189,8 +185,31 @@ make_brms_dharma_res <- function(brms_model, seed = 10, ...) {
                 ...
             )
 }
-<<<<<<< HEAD
->>>>>>> 50b690366a05061ef2adaa0366ebc303793fb121
-=======
 
->>>>>>> 8ea8d0f00a93e74bba6572529d8e837b80992256
+<<<<<<< HEAD
+=======
+## A function for converting fish counts and biomass to summary by taxa
+fish_survey_to_taxa <- function(dat) {
+  dat |>
+    select(1,2,4,8) |> 
+    dplyr::rename(sci_name = 1, com_name = 2, count = 3, biomass = 4) |> 
+    mutate(count = as.integer(count), biomass = as.numeric(biomass)) |> 
+    group_by(sci_name, com_name) |> 
+    summarise(total_count = sum(count), total_biomass = sum(biomass)) |> 
+    ungroup()
+}
+
+## A function for converting fish counts and biomass to summary
+fish_survey_to_summary <- function(dat) {
+  dat |>
+    select(1,2,4,8) |> 
+    dplyr::rename(sci_name = 1, com_name = 2, count = 3, biomass = 4) |> 
+    mutate(count = as.integer(count), biomass = as.numeric(biomass)) |> 
+    group_by(sci_name) |> 
+    summarise(sum_count = sum(count), sum_biomass = sum(biomass)) |> 
+    ungroup() |> 
+    summarise(spp_rich = n(), total_count = sum(sum_count), total_biomass = sum(sum_biomass)) |> 
+    ungroup()
+}
+
+>>>>>>> 64ad24e5288f92a2209a347280120080b5aa2c2b

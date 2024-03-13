@@ -88,4 +88,17 @@ p2<- data_rc_cover %>%
 
 p2
 
- 
+## Reef Type
+data_rc_cover %>% 
+  filter(type=="point_machine_classification") %>% 
+  ggplot(aes(y = cover, x = site_reef_type)) +
+  geom_boxplot() +
+  geom_point()
+
+## Year
+data_rc_cover %>% 
+  mutate(Year = factor(lubridate::year(survey_start_date))) |> 
+  filter(type=="point_machine_classification") %>% 
+  ggplot(aes(y = cover, x = Year)) +
+  geom_boxplot() +
+  geom_point()
