@@ -1,5 +1,5 @@
 library(tidyverse)
-
+setwd("R")
 ## reading data from source
 data_rc <- read_csv("../data/primary/data-coral-cover.csv")
 labelset_rc <- read_csv("../data/primary/data-coral-cover-labelset.csv")
