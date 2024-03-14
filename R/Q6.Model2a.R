@@ -289,9 +289,14 @@ plot1b
 plot1a <- Q6.All_Data2 |> ggplot() +
   geom_boxplot(aes(x = Site, y = cover, fill = Year)) +
   ggtitle("Hard Coral Cover") +
+  theme_bw(base_size = 16) +
   theme(axis.text.x = element_text(angle=30, hjust = 1))
-
+  
 plot1a
+
+ggsave(plot1a, file = "../outputs/figures/yearsite_plot1.png",
+       width = 10, height = 10, units = "in",
+       dpi=300)
 
 ##Binomial Model by Site. 
 
@@ -369,45 +374,98 @@ model_time1  |>
   geom_vline(xintercept = 0, linetype = "dashed")
 
 
-plot1b <-Q6.All_Data2 |> 
-  group_by(Site) |> 
+form3 <- bf(count_groupcode | trials(total) ~ Year + (1 | Site),
+            family = binomial(link = "logit"))
+
+plot1c <-Q6.All_Data2 |> 
+  group_by(Year) |> 
   summarise(Mean = mean(cover),
             SD = sd(cover)) |> 
   mutate(lower = Mean -SD,
          upper = Mean + SD) |> 
   ungroup() |> 
-  ggplot(aes(y = Mean, x = Site)) +
+  ggplot(aes(y = Mean, x = Year)) +
   geom_pointrange(aes(ymin=lower, ymax=upper)) +
   scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
   theme_classic(10)
-plot1b
+
+plot1c
 
 
-plot3 <- Q6.All_Data2 |> ggplot() +
-    geom_boxplot(aes(x = Site, y = cover, fill = Year)) +
+plot3a <- Q6.All_Data2 |> ggplot() +
+    geom_boxplot(aes(x = Year, y = cover, fill = Site)) +
     ggtitle("Hard Coral Cover") +
     theme(axis.text.x = element_text(angle=30, hjust = 1))
-plot3
+plot3a
 
-plot2 <- all_data |>
-  group_by(Site) |>
-  summarise(Mean = mean(cover),
-            SD = sd(cover)) |>
-  mutate(lower = Mean - SD,
-         upper = Mean + SD) |>
-  ungroup() |>
-  ggplot(aes(y = Mean, x = Site)) +
-  geom_pointrange(aes(ymin=lower, ymax=upper)) +
-  scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
-  theme_classic(10)
-plot2
+##Modelling -- To set the priors
 
-plot3 <- all_data |> ggplot() +
-  geom_boxplot(aes(x = Site, y = cover, fill = tourist_access)) +
-  ggtitle("Hard Coral Cover") +
-  theme(axis.text.x = element_text(angle=30, hjust = 1))
+get_prior(form3, data=Q6.All_Data2)
+
+priors <- prior(normal(0,1), class = "Intercept") +
+  prior(normal(0,1), class = "b") +
+  prior(student_t(3,0,1), class = "sd")
+
+##Modelling -- to test the priors
+
+model_year <- brm(form3, 
+              data = Q6.All_Data2,
+              prior = priors,
+              chains = 3,
+              iter = 4000,
+              warmup = 2000,
+              thin = 10,
+              sample_prior = "yes",
+              backend = "rstan")
+
+model_year |> conditional_effects() |> plot()
+
+##Modelling -- testing the data with the priors
+
+model_year <- model_year |> 
+  update(sample_prior = "yes")
+
+## to check if the model fits the data (Model Validation)
+
+model_year$fit |> stan_trace()
+
+model_year$fit |> stan_ac()
+
+model_year$fit |> stan_rhat()
+
+model_year$fit |> stan_ess()
+
+##posterior probability checks
+
+model_year |> pp_check(type = "dens_overlay", ndraws = 100)
+
+resids <- model_year |> make_brms_dharma_res(integerResponse = FALSE)
+
+testUniformity(resids)
+
+plotResiduals(resids, form = factor(rep(1, nrow(Q6.All_Data2))))
+
+plotResiduals(resids)
+
+testDispersion(resids)
+
+summary(model_year)
+
+##pairwise contrasts
+
+model_year |> emmeans(~Year, type = "response")
+
+model_year  |> emmeans(~ Year, type = "response") |>
+  pairs()
+
+model_year  |> 
+  emmeans(~Year) |> 
+  regrid() |> 
+  pairs() |> 
+  gather_emmeans_draws() |> 
+  ggplot(aes(x = .value, y = contrast)) +
+  stat_halfeye(aes(fill = after_stat(level)), .width = c(0.66, 0.95, 1)) +
+  scale_fill_brewer() +
+  geom_vline(xintercept = 0, linetype = "dashed")
 
 
-ggsave(plot3, file = "../outputs/figures/tourist_access_plot3.png",
-       width = 20, height = 10, units = "cm",
-       dpi=300)

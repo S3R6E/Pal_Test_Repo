@@ -33,6 +33,18 @@ data_Fish |> ggplot() +
 data_Fish |> ggplot() +
   geom_point(aes(x = Site, y = total_biomass, colour = Year))
 
+library(tidyverse)
+library(rstan)
+library(brms)
+library(tidybayes)
+library(DHARMa)
+library(emmeans)
+library(patchwork)
+library(rnaturalearth)
+library(sf)
+library(ggspatial)
+
+
 
 form <- bf(spp_rich ~ Year + (1 | Site),
            family = poisson(link = "log"))
@@ -50,7 +62,7 @@ model2 <- brm(form,
               iter = 2000,
               warmup = 1000,
               thin = 10,
-              sample_prior = "only",
+              sample_prior = "Yes",
               backend = "rstan")
 
 model2 |> conditional_effects() |> plot()
@@ -81,7 +93,7 @@ testDispersion(resids)
 
 summary(model2)
 
-model2 |> emmeans(~ tourist_access, type = "response")
+model2 |> emmeans(~ spp_rich, type = "response")
 
 model2 |> emmeans(~ tourist_access, type = "response") |>
   pairs()
