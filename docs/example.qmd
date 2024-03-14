@@ -44,7 +44,7 @@ output_dir: "docs"
 fontsize: 12pt
 bibliography: references.bib
 ---
-
+ 
 ```{r}
 #| label: setup
 #| include: false

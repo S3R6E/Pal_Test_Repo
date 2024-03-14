@@ -1,0 +1,32 @@
+Category;Category_name;Category_1
+ACE;Acropora encrusting;Hard coral
+ACS;Acropora submassive;Hard coral
+ACD;Acropora digitate;Hard coral
+ACB;Acropora branching;Hard coral
+ACT;Acropora tabular;Hard coral
+CE;NAC encrusting;Hard coral
+CF;NAC foliose;Hard coral
+CS;NAC submassive;Hard coral
+CMR;NAC mushroom;Hard coral
+CB;NAC branching;Hard coral
+CM;NAC massive;Hard coral
+CME;NAC millepora;Hard coral
+CTU;NAC tubipora;Hard coral
+CHL;NAC heliopora;Hard coral
+ZO;Zoanthid;Other
+OT;Other;Other
+SC;Soft coral;Other
+SP;Sponges;Other
+AN;Anemone;Other
+AA;Algal assemblage;Algae
+HA;Halimeda;Algae
+FMA;Fleshy macroalgae;Algae
+TA;Turf algae;Algae
+CA;Coralline algae;Algae
+DCA;Dead coral with algae;Dead coral
+RCK;Rock;Other
+DC;Dead coral;Dead coral
+R;Rubble;Rubble
+SI;Silt;Soft
+S;Sand;Soft
+W;Water;Water
