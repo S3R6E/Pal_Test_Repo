@@ -89,6 +89,8 @@ data_PagaC23_T1 <- data_PagaC23_T1 |>
 data_PagaC23_T2 <- read_csv("../data/primary/Pagawanen_corals2_23.csv")
 glimpse(data_PagaC23_T2)
 
+
+
 data_PagaC23_T2 <- data_PagaC23_T2 |>
   cpce_classif_to_points() |>
   separate('Frame image name',
