@@ -1,9 +1,17 @@
 setwd("R")
 
-## Read in the data from the primary data folder (Transect1)
-data1 <- read_csv("../data/primary/Siete Picados_T1.csv")
+## ---- libraries
+library(tidyverse)
+## ----end
 
+## Read in the data from the primary data folder (Transect1)
+## ---- read_data
+data1 <- read_csv("../data/primary/Siete Picados_T1.csv")
 glimpse(data1)
+head(data1)
+## ----end
+
+
 data1
 
 save(data1, file = "../data/primary/q2_data1.RData")
