@@ -1,7 +1,10 @@
 setwd("R")
 
+## ---- Load_file_EDA
 load(file = "../data/process/q2_datarich.RData")
+## ---- end
 
+## ---- Richness_Plot
 q2_richplot2 <-
   datarich |>  ggplot() +
   geom_boxplot(mapping = aes(x = Transect, y = Richness, fill = Transect), show.legend = FALSE) +
@@ -10,6 +13,7 @@ q2_richplot2 <-
   scale_y_continuous("Species Richness") +
   theme_classic()
 q2_richplot2
+## ---- end
 
 ggsave(q2_richplot2, 
        file = "../outputs/figures/q2_richplot2.png",

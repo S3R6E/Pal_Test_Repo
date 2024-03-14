@@ -257,6 +257,7 @@ Q6.All_Data2 <- bind_rows(data_HeliC22_T1,
 save(Q6.All_Data2, file = "../data/processed/Q6.All_Data2.Rdata")
 
 load(file = "../data/processed/Q6.All_Data2.Rdata")
+<<<<<<< HEAD
 
 ##to plot the Hardcoral cover in each site
 plot1b <- Q6.All_Data2 |> 
@@ -274,6 +275,8 @@ plot1b
 
 ##to see each name of sites
 Q6.All_Data2$Site |> unique()
+=======
+>>>>>>> 5b7437daa1faff99545cc9025a51248043a1b22f
 
 #to rename sites into 2 site names
 
@@ -288,6 +291,20 @@ Q6.All_Data2 <- Q6.All_Data2 |>
 ##to check if the changing of names worked
 
 Q6.All_Data2$Site |> unique()
+
+##to plot the Hardcoral cover in each site
+plot1b <- Q6.All_Data2 |> 
+  group_by(Site, Year) |> 
+  summarise(Mean = mean(cover),
+            SD = sd(cover)) |> 
+  mutate(lower = Mean -SD,
+         upper = Mean + SD) |> 
+  ungroup() |> 
+  ggplot(aes(y = Mean, x = Site)) +
+  geom_pointrange(aes(ymin=lower, ymax=upper, color = Year)) +
+  scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
+  theme_classic(10)
+plot1b
 
 ##to plot the data by Year ---You can change the "Year" to "tourist_access"
 
@@ -333,7 +350,7 @@ model_time1 <- brm(form2,
               data = Q6.All_Data2,
               prior = priors,
               chains = 3,
-              iter = 2000,
+              iter = 5000,
               warmup = 1000,
               thin = 10,
               sample_prior = "only",
