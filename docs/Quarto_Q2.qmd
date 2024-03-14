@@ -1,0 +1,275 @@
+---
+title: "Coral Cover and Coral Richness"
+author: "KCL, JMB, SLFM, CSA, LTVA"
+date: today
+date-format: "DD/MM/YYYY"
+format: 
+  html:
+    ## Format
+    ##theme: spacelab
+    html-math-method: mathjax
+    ## Table of contents
+    toc: true
+    toc-float: true
+    ## Numbering
+    number-sections: true
+    number-depth: 3
+    ## Layout
+    fig-caption-location: "bottom"
+    fig-align: "center"
+    fig-width: 4
+    fig-height: 4
+    fig-dpi: 72
+    tbl-cap-location: top
+    ## Code
+    code-fold: true
+    code-tools: true
+    code-summary: "Show the code"
+    code-line-numbers: true
+    code-block-border-left: "#ccc"
+    highlight-style: zenburn
+    ## Execution
+    execute:
+      echo: true
+      cache: false
+    ## Rendering
+    embed-resources: true
+crossref:
+  fig-title: '**Figure**'
+  fig-labels: arabic
+  tbl-title: '**Table**'
+  tbl-labels: arabic
+engine: knitr
+output_dir: "docs"
+fontsize: 12pt
+bibliography: references.bib
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(cache.lazy = FALSE,
+                      tidy = "styler")
+options(tinytex.engine = "xelatex")
+knitr::read_chunk("../R/q2_read_data.R")
+knitr::read_chunk("../R/q2_process_data.R")
+```
+
+The analyses aims to foundout the actual Hard Coral Cover and Coral Richness among transects in Siete Picados Marine Park.
+
+# Preparations
+
+::: {.callout-note collapse="true"}
+### Click to show the code
+
+```{r}
+#| label: libraries
+#| output: false
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+#| code-fold: false
+```
+:::
+
+# Reading in the data
+
+The data collected were from Siete Picados Marine Park in the municipality of Coron, Palawan. The survey was conducted last 2021 using a C30 method, a free-diving photo-quadrat survey within a 75m by 25m sampling area. The photo data used standardized reef images at random positons.
+
+## Raw Data of 4 Transects
+
+::: {.callout-important collapse="true"}
+### Click to read the raw data of Transect 1 or show the code
+
+#### Transect 1 Data
+
+```{r}
+#| label: read_data_T1
+```
+
+#### Transect 2 Data
+
+```{r}
+#| label: read_data_T2
+```
+
+#### Transect 3 Data
+
+```{r}
+#| label: read_data_T3
+```
+
+#### Transect 4 Data
+
+```{r}
+#| label: read_data_T4
+```
+:::
+
+# Processing the Data
+
+.....insert description here
+
+## Load raw data files.
+
+::: {.callout-note collapse="true"}
+### Click to show the codes for loading files of each transect
+
+### Load File from T1 Data
+
+```{r}
+#| label: load_file_T1
+```
+
+### Load File from T2 Data
+
+```{r}
+#| label: load_file_T2
+```
+
+### Load File from T3 Data
+
+```{r}
+#| label: load_file_T3
+```
+
+### Load File from T4 Data
+
+```{r}
+#| label: load_file_T4
+```
+:::
+
+## Process the Data.
+
+Steps for processing the data:
+
+a.  Convert the taxon categories into counts per photo for each category
+b.  Extracting important spatial data from the image name (split filename into Site, Transect and Photo variable)
+c.  Add a column that is the cover of coral calculated as the number of points of coral divided by the total number of points
+d.  Rename the Raw Data column to make it consistent across multiple data sets
+
+### Processing Data of Hard Coral Cover
+
+::: {.callout-note collapse="true"}
+### Click to show the codes for processing hard coral cover data of each transect
+
+#### Processing Data 1: Hard Coral Cover
+
+```{r}
+#| label: Data1
+#| warning: false
+#| code-fold: false
+```
+
+
+#### Processing Data 2: Hard Coral Cover
+
+```{r}
+#| label: Data2
+#| warning: false
+#| code-fold: false
+```
+
+
+#### Processing Data 3: Hard Coral Cover
+
+```{r}
+#| label: Data3
+#| warning: false
+#| code-fold: false
+```
+
+
+#### Processing Data 4: Hard Coral Cover
+
+```{r}
+#| label: Data4
+#| warning: false
+#| code-fold: false
+```
+:::
+
+
+### Processing Data of Coral Richness
+
+::: {.callout-note collapse="true"}
+### Click to show the codes for processing coral richness data of each transect
+
+#### Processing Data 1: Coral Richness
+
+```{r}
+#| label: data_rc1
+#| warning: false
+#| code-fold: false
+```
+
+
+#### Processing Data 2: Coral Richness
+
+```{r}
+#| label: data_rc2
+#| warning: false
+#| code-fold: false
+```
+
+
+#### Processing Data 3: Coral Richness
+
+```{r}
+#| label: data_rc3
+#| warning: false
+#| code-fold: false
+```
+
+
+#### Processing Data 4: Coral Richness
+
+```{r}
+#| label: data_rc4
+#| warning: false
+#| code-fold: false
+```
+:::
+
+
+## Merge the Data of Four Transects.
+
+### Merge all data of Hard Coral Cover for Transect 1 to Transect 4.
+
+::: {.callout-note collapse="true"}
+### Click to show the codes for merging data of hard coral cover of four transects.
+```{r}
+#| label: merge_hcc
+#| warning: false
+#| code-fold: false
+```
+:::
+
+
+### Merge all data of Coral Richness for Transect 1 to Transect 4.
+
+::: {.callout-note collapse="true"}
+### Click to show the codes for merging data of coral richness of four transects.
+```{r}
+#| label: merge_hc
+#| code-fold: false
+```
+:::
+
+# Exploratory Data Analysis
+
+## Load File EDA
+```{r}
+#|label: Load_file_EDA
+```
+
+```{r}
+#| label: Richness_Plot
+#| warning: false
+```
+
+
