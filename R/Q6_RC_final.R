@@ -2,40 +2,25 @@
 ##Load necessary libraries (7 libraries)
 library(tidyverse)
 library(brms)
-<<<<<<< HEAD
 library(rstan)
 library(ggrepel)
 library(ggplot2)
-library(tidybayes)
-library(DHARMa)
 library(emmeans)
 library(patchwork)
 library(sf)
 library(rnaturalearth)
 library(ggspatial)
-=======
 library(cmdstanr)
-library(rstan)
 library(DHARMa)
-library(emmeans)
 library(tidybayes)
 
 source ("functions.R")
->>>>>>> 8eb7cb9e4c2b7ba1a272bc7837331886c02de62c
-
-<<<<<<< HEAD
-## ----mapPlotting
+setwd("../R")
 
 
 ## ----readData
 data_rc <- read.csv("../data/primary/data-coral-cover.csv")
 labelset_rc <- read.csv("../data/primary/data-coral-cover-labelset.csv")
-=======
-setwd("~/Repository/Pal_Test_Repo")
-
-data_rc <- read.csv("../Pal_Test_Repo/data/primary/data-coral-cover.csv")
-labelset_rc <- read.csv("../Pal_Test_Repo/data/primary/data-coral-cover-labelset.csv")
->>>>>>> 5b7437daa1faff99545cc9025a51248043a1b22f
 
 data_rc |> glimpse()
 ## ----end
@@ -89,14 +74,13 @@ data_rc <-
 ## ----end
 
 ## ---- calculateCount
-data_rc_cover <- 
+data_rc_cover_site <- 
   data_rc |> 
   group_by(across(c(starts_with("site"),
                     starts_with("survey"),
                     starts_with("transect"),
                     year,
                     type,
-                    image_id,
                     classification,
                     GROUP))
   ) |>
@@ -107,15 +91,14 @@ data_rc_cover <-
 ## ----end
 
 ## ---- fillDataCategories
-GROUPS <- data_rc_cover |> pull(GROUP) |> unique()
-filler <- data_rc_cover %>%
+GROUPS <- data_rc_cover_site |> pull(GROUP) |> unique()
+filler <- data_rc_cover_site %>%
   dplyr::select(
     starts_with("site"),
     survey_start_date,
     survey_depth,
     transect_name,
     transect_id,
-    image_id,
     type,
     TOTAL) |> 
   distinct() |> 
@@ -123,8 +106,8 @@ filler <- data_rc_cover %>%
 ## ----end
 
 ## ---- calculateCover
-data_rc_cover <-
-  data_rc_cover |> 
+data_rc_cover_site <-
+  data_rc_cover_site |> 
   full_join(filler) |>
   group_by(
     across(c(starts_with("site"),
@@ -132,7 +115,6 @@ data_rc_cover <-
              survey_depth,
              transect_name,
              transect_id,
-             image_id,
              type,
              GROUP
     ))) |> 
@@ -142,25 +124,25 @@ data_rc_cover <-
 ## ----end
 
 
-data_rc_cover |> glimpse()
+data_rc_cover_site |> glimpse()
 
 ## ---- addManagement
-data_rc_cover$site_name |> unique() 
+data_rc_cover_site$site_name |> unique() 
 
-data_rc_cover <- data_rc_cover |>
+data_rc_cover_site <- data_rc_cover_site |>
   filter(type == "point_machine_classification") |>
   mutate(site_management = case_when(
     site_name %in% c("DENR_Snake_S3", "PAMO_Helicopter","WWF_Ar_Cambari", "WWF_Ar_Catad") ~ "Protected",
     site_name %in% c("WPU_PB_Aquarium","WPU_PB_Fantastic", "WWF_Ar_Langoy", "WPU_PB_Manta") ~ "Tourist_Site",
   ))
 
-data_rc_cover$site_management <- factor(data_rc_cover$site_management, levels = c("Protected","Tourist_Site"))
+data_rc_cover_site$site_management <- factor(data_rc_cover_site$site_management, levels = c("Protected","Tourist_Site"))
 ## ----end
 
-levels(data_rc_cover$site_management)
+levels(data_rc_cover_site$site_management)
 
 ## ----calculateSiteCover
-data_rc_cover_site <- data_rc_cover |>
+data_rc_cover_site <- data_rc_cover_site |>
   group_by(
   across(c(starts_with("site"),
            survey_start_date,
@@ -175,107 +157,6 @@ data_rc_cover_site <- data_rc_cover |>
   ) |> 
   ungroup() 
 ## ----end
-
-##boxplot
-plotRC1 <- data_rc_cover |> 
-  filter(GROUP == "HC") |> ggplot() +
-  geom_boxplot(aes(x = site_name, y = COUNT/TOTAL, fill = site_management)) +
-  ggtitle("Hard Coral Cover") +
-  theme_bw(base_size = 16) +
-  theme(axis.text.x = element_text(angle=30, hjust = 1))
-
-plotRC1
-
-
-formRC1 <- bf(COUNT | trials(TOTAL) ~ site_management + (1 | site_name),
-              family = binomial(link = "logit"))
-
-get_prior(formRC1, data=data_rc_cover)
-
-data_rc_cover %>% 
-  mutate(cover = COUNT/TOTAL) %>% 
-  group_by(site_management) %>% 
-  summarise(across(cover, list(mean, sd, median, sd)))
-
-qlogis(0.148)
-
-priors <- prior(normal(-1.75, 1), class = "Intercept") +
-  prior(normal(0,1), class = "b") +
-  prior(student_t(3,0,1), class = "sd")
-
-model_RC <- brm(formRC1, 
-                   data = data_rc_cover,
-                   prior = priors,
-                   chains = 3,
-                cores = 3,
-                   iter = 3000,
-                   warmup = 1000,
-                   thin = 10,
-                   sample_prior = "yes",
-                   backend = "rstan")
-
-model_RC |> conditional_effects() |> plot() 
-
-model_RC <- model_RC |> 
-  update(sample_prior = "yes")
-
-model_RC |> conditional_effects() |> plot()
-
-model_RC |> summary()
-
-model_RC$fit |> stan_trace()
-
-model_RC$fit |> stan_ac()
-
-model_RC$fit |> stan_rhat()
-
-model_RC$fit |> stan_ess()
-
-model_RC |> pp_check(type = "dens_overlay", ndraws = 100)
-
-resids <- model_RC |> make_brms_dharma_res(integerResponse = FALSE)
-
-testUniformity(resids)
-
-plotResiduals(resids, form = factor(rep(1, nrow(data_rc_cover))))
-
-plotResiduals(resids)
-
-testDispersion(resids)
-
-
-model_RC |> emmeans(~ site_management, type = "response")
-
-model_RC  |> emmeans(~ site_management, type = "response") |>
-  pairs()
-
-model_RC  |> 
-  emmeans(~site_management) |> 
-  regrid() |> 
-  pairs() |> 
-  gather_emmeans_draws() |> 
-  ggplot(aes(x = .value, y = contrast)) +
-  stat_halfeye(aes(fill = after_stat(level)), .width = c(0.66, 0.95, 1)) +
-  scale_fill_brewer() +
-  geom_vline(xintercept = 0, linetype = "dashed")
-
-formRC2 <- bf(COUNT | trials(TOTAL) ~ site_management + (1 | site_name),
-              family = binomial(link = "logit"))
-
-data_rc_cover_site <- data_rc_cover |>
-  group_by(
-    across(c(starts_with("site"),
-             survey_start_date,
-             survey_depth,
-             transect_name,
-             transect_id,
-             type,
-             GROUP
-    ))) |> 
-  summarise(COUNT = sum(COUNT),
-            TOTAL = sum(TOTAL)
-  ) |> 
-  ungroup() 
 
 ##boxplot
 
@@ -393,11 +274,6 @@ model_RC1a  |>
   scale_fill_brewer() +
   geom_vline(xintercept = 0, linetype = "dashed")
 
-## ---- PlottingDiveLocations
-data_rc_cover_site |> ggplot(aes(y = site_latitude, x = site_longitude)) +
-  geom_point()
-## ----end
-
 ## ----LoadPhilippinesMap
 map1 <- rnaturalearth::ne_countries(scale = 10, country = "Philippines", returnclass = "sf")
 ggplot() + geom_sf(data = map1)
@@ -414,15 +290,21 @@ bbox <- sf::st_bbox(c(
   crs = sf::st_crs(map1))
 ## ----end
 
-## ----LoadReefData
+## ---- PlottingDiveLocations
+data_rc_cover_site |> ggplot(aes(y = site_latitude, x = site_longitude)) +
+  geom_point()
 reef <- sf::read_sf("../Pal_Test_Repo/data/GIS/reef_500_poly.shp")
 ## ----end
 
 ## ----createInsetMap
-reef_pal <- reef |> 
-  sf::st_transform(crs = sf::st_crs(map1)) |> 
-  sf::st_make_valid() |> 
-  sf::st_crop(bbox)
+ggplot() + geom_sf(data = map1)
+
+bbox <- sf::st_bbox(c(
+  xmin = 118.3,
+  xmax = 120.5,
+  ymin = 9,
+  ymax = 11.5),
+  crs = sf::st_crs(coast_pal))
 
 coast_pal <- map1 |> 
   sf::st_crop(bbox)
@@ -433,12 +315,6 @@ data_rc_cover_site <- data_rc_cover_site |>
            crs = 4326)
 data_rc_cover_site
 
-bbox <- sf::st_bbox(c(
-  xmin = 118.3,
-  xmax = 120.5,
-  ymin = 9,
-  ymax = 11.5),
-  crs = sf::st_crs(coast_pal))
 
 pal_map<-
   ggplot() +
@@ -532,3 +408,46 @@ base_map
 base_map +
   inset_element(pal_map, left = 0.01, bottom = 0.7, right = 0.4, top = 0.99)
 ## ----end
+
+
+
+base_map <-
+  ggplot() +
+  geom_sf(data = coast_pal, aes(colour = "land", fill = "land")) +
+  geom_sf(data = reef_pal, aes(colour = "reef")) +
+  ggspatial::annotation_scale(location = "br",
+                              width_hint =  0.4,
+                              bar_cols = c("grey", "white"))+
+  annotation_north_arrow(location = "br",
+                         which_north = "true", 
+                         pad_x = unit(0.1, "npc"),
+                         pad_y = unit(0.3, "in"),
+                         style = north_arrow_fancy_orienteering) +
+  coord_sf(xlim = c(118.5, 120.2), 
+           ylim = c(9.6,11.5), expand = FALSE) +
+  geom_point(data = Protected, aes(y = latitude, x = longitude,
+                                   colour = "Protected"), 
+             shape = 16, size =  2) +
+  geom_point(data = Tourist_Site, aes(y = latitude, x = longitude,
+                                      colour = "Tourist_Site"), 
+             shape = 16, size =  2) +
+  geom_point(data = php_cities,
+             aes(y = latitude, x = longitude)) +
+  geom_text(data = php_cities,
+            aes(y = latitude + 0.1,
+                x = longitude, label = name), vjust =  0) +
+  scale_colour_manual("", values = c("grey", "red","pink", "blue")) +
+  scale_fill_manual("", breaks = "land", values = c("grey")) +
+  theme_bw() +
+  theme(
+    panel.background = element_rect(fill = "#0000ff10")
+  )
+
+base_map
+
+base_map +
+  inset_element(map1, left = 0.01, bottom = 0.6, right = 0.4, top = 0.99)
+
+
+
+

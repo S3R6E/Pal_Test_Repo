@@ -52,7 +52,7 @@ bibliography: references.bib
 knitr::opts_chunk$set(cache.lazy = FALSE,
                       tidy = "styler")
 options(tinytex.engine = "xelatex")
-knitr::read_chunk("../R/Q6_RC.R")
+knitr::read_chunk("../R/Q6_RC_final.R")
 ```
 
 # Preparations
@@ -174,5 +174,40 @@ Calculate cover based on all points in image
 #| eval: true
 #| warning: false
 #| message: false
+```
+
+```{r}
+#| label: LoadPhilippinesMap
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+```{r}
+#| label: ZoomPalawanMap
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+## Plot Reef Location
+
+```{r}
+#| label: PlottingDiveLocations
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+```{r}
+#| label: createInsetMap
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
 ```
 
