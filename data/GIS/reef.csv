@@ -1,0 +1,9 @@
+﻿site_id,site_name,site_latitude,site_longitude,site_reef_name,site_exposure,site_reef_type,site_reef_zone,site_management,survey_start_date,survey_depth,transect_name,Side
+23233,WPU_PB_Aquarium,10.43,119.12,Aquarium Reef,exposed,patch,crest,NA,2019-04-27T10:30:00Z,5,WPU_PB_Aquarium_2019_1,West
+23234,WPU_PB_Fantastic,10.46,119.15,Fantastic Reef,exposed,patch,crest,NA,2019-04-26T08:35:00Z,5,WPU_PB_Fantastic_2019_1,West
+23235,WPU_PB_Manta,10.47,119.17,Manta Ray Reef,exposed,patch,crest,NA,2019-04-27T08:00:00Z,5,WPU_PB_Manta_2019_1,West
+23236,WWF_Ar_Cambari,10.55,120.09,Cambari Reef,exposed,fringing,fore reef,NA,2022-03-18T09:30:00Z,5,WWF_Ar_Cambari_2022_1,East
+23237,WWF_Ar_Catad,10.54,120.02,Catad Reef,exposed,fringing,fore reef,NA,2021-09-29T13:00:00Z,5,WWF_Ar_Catad_2021_1,East
+23238,WWF_Ar_Langoy,10.5,120,Langoy Reef,exposed,fringing,fore reef,NA,2022-03-19T09:30:00Z,5,WWF_Ar_Langoy_2022_1,East
+23239,DENR_Snake_S3,9.91,118.85,Snake Island - S3,semi-exposed,fringing,crest,Government Research Area,2023-06-13T11:20:00Z,4,DENR_Snake_S3_2023_1,East
+23240,PAMO_Helicopter,11.2,119.34,Helicopter Island Reef,semi-exposed,fringing,fore reef,Marine Protected Area,2023-08-31T09:35:00Z,4,PAMO_Helicopter_2023_1,West

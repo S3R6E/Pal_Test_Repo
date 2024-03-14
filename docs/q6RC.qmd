@@ -53,6 +53,7 @@ knitr::opts_chunk$set(cache.lazy = FALSE,
                       tidy = "styler")
 options(tinytex.engine = "xelatex")
 knitr::read_chunk("../R/Q6_RC_final.R")
+knitr::read_chunk("../R/Q6_RC.R")
 ```
 
 # Preparations
@@ -69,7 +70,6 @@ Load the necessary libraries.
 
 library(tidyverse)
 library(brms)
-library(cmdstanr)
 library(rstan)
 library(DHARMa)
 library(emmeans)
@@ -176,16 +176,17 @@ Calculate cover based on all points in image
 #| message: false
 ```
 
+##Prepare Data for Mapping
 ```{r}
-#| label: LoadPhilippinesMap
+#| label: DataMapPreparation
 #| echo: true
 #| eval: true
 #| warning: false
 #| message: false
 ```
-
+##Create Inset Map
 ```{r}
-#| label: ZoomPalawanMap
+#| label: createInsetMap
 #| echo: true
 #| eval: true
 #| warning: false
@@ -195,7 +196,7 @@ Calculate cover based on all points in image
 ## Plot Reef Location
 
 ```{r}
-#| label: PlottingDiveLocations
+#| label: plottingDiveLocations
 #| echo: true
 #| eval: true
 #| warning: false
@@ -209,5 +210,28 @@ Calculate cover based on all points in image
 #| warning: false
 #| message: false
 ```
+```
+```{r}
+#| label: LoadCitiesNames
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+```{r}
+#| label: CoordinatesPerCategory
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+```{r}
+#| label: FinalMap
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
 ```
 

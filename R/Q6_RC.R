@@ -467,39 +467,16 @@ model_RC1a  |>
   scale_fill_brewer() +
   geom_vline(xintercept = 0, linetype = "dashed")
 
-## ---- PlottingDiveLocations
-data_rc_cover_site |> ggplot(aes(y = site_latitude, x = site_longitude)) +
-  geom_point()
-## ----end
-
-## ----LoadPhilippinesMap
+## ----DataMapPreparation
+reef <- sf::read_sf("../data/GIS/reef_500_poly.shp")
 map1 <- rnaturalearth::ne_countries(scale = 10, country = "Philippines", returnclass = "sf")
 ggplot() + geom_sf(data = map1)
-## ----end
 
-## ----ZoomPalawanMap
-bbox <- sf::st_bbox(map1)
-
-bbox <- sf::st_bbox(c(
-  xmin = 116,
-  xmax = 121,
-  ymin = 8,
-  ymax = 13),
-  crs = sf::st_crs(map1))
-## ----end
-
-## ----LoadReefData
-reef <- sf::read_sf("../Pal_Test_Repo/data/GIS/reef_500_poly.shp")
-## ----end
-
-## ----createInsetMap
 reef_pal <- reef |> 
   sf::st_transform(crs = sf::st_crs(map1)) |> 
   sf::st_make_valid() |> 
   sf::st_crop(bbox)
-
-coast_pal <- map1 |> 
-  sf::st_crop(bbox)
+reef_pal
 
 data_rc_cover_site <- data_rc_cover_site |> 
   st_as_sf(coords = c("site_longitude", "site_latitude"), 
@@ -507,23 +484,41 @@ data_rc_cover_site <- data_rc_cover_site |>
            crs = 4326)
 data_rc_cover_site
 
+## ----end
+
+## ----createInsetMap
+bbox <- sf::st_bbox(c(
+  xmin = 116,
+  xmax = 121,
+  ymin = 8,
+  ymax = 13),
+  crs = sf::st_crs(map1))
+bbox
+
 bbox <- sf::st_bbox(c(
   xmin = 118.3,
   xmax = 120.5,
   ymin = 9,
   ymax = 11.5),
   crs = sf::st_crs(coast_pal))
+bbox
 
 pal_map<-
   ggplot() +
   geom_sf(data = coast_pal, fill = "grey20") +
-  geom_sf(dat = sf::st_as_sfc(bbox), fill = "#c6c6c640") +
+  geom_sf(data = sf::st_as_sfc(bbox), fill = "#c6c6c640") +
   theme_bw() +
   theme(
     axis.ticks = element_blank(),
     axis.text = element_blank(),
     panel.grid = element_blank())
 pal_map 
+
+## ----end
+
+## ---- PlottingDiveLocations
+data_rc_cover_site |> ggplot(aes(y = site_latitude, x = site_longitude)) +
+  geom_point()
 
 ## ----end
 
@@ -550,31 +545,6 @@ Tourist_Site <- data.frame(
 )
 ## ----end
 
-## ----BaseMap
-plot1<-
-  ggplot() +
-  geom_sf(data = map1, fill = "white") +
-  geom_sf(data = reef_pal, fill = "pink") +
-  geom_point(data = Protected, aes(y = latitude, x = longitude, colour = "Protected"), shape = 16, size = 2) +
-  geom_point(data = Tourist_Site, aes(y = latitude, x = longitude, colour = "Tourist_Site"), shape = 16, size = 2) +
-  ggspatial::annotation_north_arrow(location = "tr",
-                                    which_north = "true",
-                                    pad_x = unit(0.05, "in"), pad_y = unit (0.05, "npc"),
-                                    style = north_arrow_fancy_orienteering) + 
-  ggspatial::annotation_scale(location = "bl",
-                              width_hint = 0.5,
-                              bar_cols = c("grey20", "white")) +
-  coord_sf(xlim = c(118.3, 120.5), ylim = c(9, 12), expand = FALSE) +
-  geom_point(data = php_cities,
-             aes(y = latitude, x = longitude)) +
-  geom_text(data = php_cities,
-            aes(y = latitude + 0.1,
-                x = longitude, label = name),
-            vjust = 0) +
-  theme_bw() +
-  theme(panel.background = element_rect(fill = "#0000ff10"))
-plot1
-## ----end
 
 ## ----FinalMap
 base_map <-
