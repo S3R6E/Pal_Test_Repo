@@ -89,6 +89,8 @@ data_PagaC23_T1 <- data_PagaC23_T1 |>
 data_PagaC23_T2 <- read_csv("../data/primary/Pagawanen_corals2_23.csv")
 glimpse(data_PagaC23_T2)
 
+
+
 data_PagaC23_T2 <- data_PagaC23_T2 |>
   cpce_classif_to_points() |>
   separate('Frame image name',
@@ -255,6 +257,26 @@ Q6.All_Data2 <- bind_rows(data_HeliC22_T1,
 save(Q6.All_Data2, file = "../data/processed/Q6.All_Data2.Rdata")
 
 load(file = "../data/processed/Q6.All_Data2.Rdata")
+<<<<<<< HEAD
+
+##to plot the Hardcoral cover in each site
+plot1b <- Q6.All_Data2 |> 
+  group_by(Site, Year) |> 
+  summarise(Mean = mean(cover),
+            SD = sd(cover)) |> 
+  mutate(lower = Mean -SD,
+         upper = Mean + SD) |> 
+  ungroup() |> 
+  ggplot(aes(y = Mean, x = Site)) +
+  geom_pointrange(aes(ymin=lower, ymax=upper, color = Year)) +
+  scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
+  theme_classic(10)
+plot1b
+
+##to see each name of sites
+Q6.All_Data2$Site |> unique()
+=======
+>>>>>>> 5b7437daa1faff99545cc9025a51248043a1b22f
 
 #to rename sites into 2 site names
 
@@ -294,16 +316,27 @@ plot1a <- Q6.All_Data2 |> ggplot() +
   
 plot1a
 
+<<<<<<< HEAD
+
+library(tidyverse)
+library(rstan)
+library(brms)
+library(tidybayes)
+library(DHARMa)
+library(emmeans)
+library(patchwork)
+=======
 ggsave(plot1a, file = "../outputs/figures/yearsite_plot1.png",
        width = 10, height = 10, units = "in",
        dpi=300)
+>>>>>>> 74cc0fd6b104e74e8ec575966264556afab6fff9
 
 ##Binomial Model by Site. 
 
 form2 <- bf(count_groupcode | trials(total) ~ Site + (1 | Transect),
            family = binomial(link = "logit"))
 
-##Modelling -- To set the priors
+bf##Modelling -- To set the priors
 
 get_prior(form2, data=Q6.All_Data2)
 
@@ -398,6 +431,25 @@ plot3a <- Q6.All_Data2 |> ggplot() +
     theme(axis.text.x = element_text(angle=30, hjust = 1))
 plot3a
 
+<<<<<<< HEAD
+plot2 <- Q6.All_Data2 |>
+  group_by(Site) |>
+  summarise(Mean = mean(cover),
+            SD = sd(cover)) |>
+  mutate(lower = Mean - SD,
+         upper = Mean + SD) |>
+  ungroup() |>
+  ggplot(aes(y = Mean, x = Site)) +
+  geom_pointrange(aes(ymin=lower, ymax=upper)) +
+  scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
+  theme_classic(10)
+plot2
+
+plot3 <- Q6.All_Data2|> ggplot() +
+  geom_boxplot(aes(x = Site, y = cover, fill = tourist_access)) +
+  ggtitle("Hard Coral Cover") +
+  theme(axis.text.x = element_text(angle=30, hjust = 1))
+=======
 ##Modelling -- To set the priors
 
 get_prior(form3, data=Q6.All_Data2)
@@ -467,5 +519,6 @@ model_year  |>
   stat_halfeye(aes(fill = after_stat(level)), .width = c(0.66, 0.95, 1)) +
   scale_fill_brewer() +
   geom_vline(xintercept = 0, linetype = "dashed")
+>>>>>>> 74cc0fd6b104e74e8ec575966264556afab6fff9
 
 
