@@ -1,13 +1,18 @@
-library(tidyverse)
-library(brms)
-library(cmdstanr)
+library(tidyverse) ##for data wrangling
+library(brms) ##for modeling
+library(rstan) ##for model validation
+library(DHARMa) ##for model validation
+library(emmeans) ##to gather results
+library(tidybayes) ##to get the result
 
-data_rc <- read.csv("../data/primary/data-coral-cover.csv")
-labelset_rc <- read.csv("../data/primary/data-coral-cover-labelset.csv")
+source ("functions.R") ##before using function, set working director, the to source file location
 
-data_rc |> glimpse()
+data_rc <- read.csv("../data/primary/data-coral-cover.csv") ##to read the data
+labelset_rc <- read.csv("../data/primary/data-coral-cover-labelset.csv") ##to read the data
 
-data_rc <- data_rc |> 
+data_rc |> glimpse() ##to show the content of the data in console
+
+data_rc <- data_rc |>  ## to process the data
   dplyr::select(project_id,
                 project_name,
                 site_id,
@@ -30,7 +35,7 @@ data_rc <- data_rc |>
                 point_human_classification
   ) |> 
   rename(survey_start_date = survey_start_date..UTC.) |> 
-  dplyr::filter(image_disabled == "False") |> 
+  dplyr::filter(image_disabled == "False") |> ## False means you don't want the "image_disabled" to be include in your data
   select(-image_disabled)
 
 data_rc <- data_rc |> 
@@ -45,20 +50,20 @@ data_rc <-
               dplyr::select(CODE, GROUP = `FUNCTIONAL.GROUP`),
             by = c("classification" = "CODE")
   ) |> 
-  mutate(transect_name = paste(site_name, year(survey_start_date), survey_transect_number, sep ="_"),
+  mutate(transect_name = paste(site_name, year(survey_start_date), survey_transect_number, sep ="_"), 
          transect_id = paste0(site_id, year(survey_start_date), survey_transect_number)) |>
-  mutate(year = lubridate::year(survey_start_date))
+  mutate(year = lubridate::year(survey_start_date)) ##mutate a function to change some information in the data ##note, right side is the new one, left is the old one
 
 data_rc_cover <- 
   data_rc |> 
-  group_by(across(c(starts_with("site"),
+  group_by(across(c(starts_with("site"),      ##to organize which group you want to go first 
                     starts_with("survey"),
                     starts_with("transect"),
                     year,
                     type,
                     image_id,
                     classification,
-                    GROUP))
+                    GROUP)) 
   ) |>
   summarise(COUNT = n(), .groups = "keep") |> 
   ungroup(GROUP) |>
@@ -126,7 +131,7 @@ data_rc_cover_site <- data_rc_cover |>
   ungroup() 
   
 
-##boxplot
+##boxplot of Hard COral Cover
 plotRC1 <- data_rc_cover |> 
   filter(GROUP == "HC") |> ggplot() +
   geom_boxplot(aes(x = site_name, y = COUNT/TOTAL, fill = site_management)) +
@@ -134,19 +139,25 @@ plotRC1 <- data_rc_cover |>
   theme_bw(base_size = 16) +
   theme(axis.text.x = element_text(angle=30, hjust = 1))
 
-plotRC1
+
+plotRC1 ##run this to see the box plot of Hard Coral Cover
 
 
+
+##formula of the model relating coral cover to site management
 formRC1 <- bf(COUNT | trials(TOTAL) ~ site_management + (1 | site_name),
-              family = beta_binomial(link = "logit"))
+              family = beta_binomial(link = "logit")) 
 
-get_prior(formRC1, data=data_rc_cover)
+##to determine what the default priors could be
+get_prior(formRC1, data=data_rc_cover) 
 
+##calculating simple summary to help you create sensible priors
 data_rc_cover %>% 
   mutate(cover = COUNT/TOTAL) %>% 
   group_by(site_management) %>% 
   summarise(across(cover, list(mean, sd, median, sd)))
 
+##formula 
 qlogis(0.148)
 
 priors <- prior(normal(-1.75, 1), class = "Intercept") +
@@ -165,7 +176,7 @@ model_RC <- brm(formRC1,
                    backend = "rstan")
 
 model_RC |> conditional_effects() |> plot() 
-
+model_RC |> SUYR_prior_and_posterior()
 model_RC <- model_RC |> 
   update(sample_prior = "yes")
 
@@ -173,12 +184,15 @@ model_RC |> conditional_effects() |> plot()
 
 model_RC |> summary()
 
+
 model_RC$fit |> stan_trace()
 
 model_RC$fit |> stan_ac()
 
+##this model shows how effective your samples are if the value is more than 1
 model_RC$fit |> stan_rhat()
 
+##this model 
 model_RC$fit |> stan_ess()
 
 model_RC |> pp_check(type = "dens_overlay", ndraws = 100)
@@ -193,6 +207,19 @@ plotResiduals(resids)
 
 testDispersion(resids)
 
+model_RC |> summary()
+
+##to need to know what is the probability pf being different of two site_management 
+model_RC |>
+  as_draws_df() %>%
+  dplyr::select(starts_with("b_")) |> 
+  mutate(b_Intercept = plogis (b_Intercept)) |> 
+  mutate(across(starts_with("b_site"), exp)) |> 
+  summarise_draws(median,
+                  HDInterval::hdi,
+                  Pl = ~mean(.x < 1),
+                  Pg = ~mean(.x>1),
+                  Pg10 = ~mean(.x > 1.1))
 
 model_RC |> emmeans(~ site_management, type = "response")
 
@@ -208,5 +235,115 @@ model_RC  |>
   stat_halfeye(aes(fill = after_stat(level)), .width = c(0.66, 0.95, 1)) +
   scale_fill_brewer() +
   geom_vline(xintercept = 0, linetype = "dashed")
+
+
+##model by transect
+data_rc_cover_site <- data_rc_cover |>
+  group_by(
+    across(c(starts_with("site"),
+             survey_start_date,
+             survey_depth,
+             transect_name,
+             transect_id,
+             type,
+             GROUP
+    ))) |> 
+  summarise(COUNT = sum(COUNT),
+            TOTAL = sum(TOTAL)
+  ) |> 
+  ungroup() 
+
+
+##boxplot
+plotRC1a <- data_rc_cover_site |> 
+  filter(GROUP == "HC") |> ggplot() +
+  geom_boxplot(aes(x = site_name, y = COUNT/TOTAL, fill = site_management)) +
+  ggtitle("Hard Coral Cover") +
+  theme_bw(base_size = 16) +
+  theme(axis.text.x = element_text(angle=30, hjust = 1))
+
+plotRC1a
+
+
+formRC1a <- bf(COUNT | trials(TOTAL) ~ site_management + (1 | site_name),
+              family = beta_binomial(link = "logit"))
+
+get_prior(formRC1a, data=data_rc_cover_site)
+
+data_rc_cover_site %>% 
+  mutate(cover = COUNT/TOTAL) %>% 
+  group_by(site_management) %>% 
+  summarise(across(cover, list(mean, sd, median, sd)))
+
+##formula to get the exact prior that you need
+qlogis(0.128)
+
+priors <- prior(normal(-1.91, 1), class = "Intercept") +
+  prior(normal(0,1), class = "b") +
+  prior(student_t(3,0,1), class = "sd")
+
+
+model_RC1a <- brm(formRC1a, 
+                data = data_rc_cover_site,
+                prior = priors,
+                chains = 3, cores = 3,
+                iter = 3000,
+                warmup = 1000,
+                thin = 10,
+                sample_prior = "yes",
+                control=list(adapt_delta=0.99),
+                backend = "rstan")
+
+
+##to run the plot from the model
+model_RC1a |> conditional_effects() |> plot() 
+
+##
+model_RC2a |> SUYR_prior_and_posterior()
+
+model_RC1a <- model_RC1a |> 
+  update(sample_prior = "yes")
+
+model_RC1a |> conditional_effects() |> plot()
+
+model_RC1a |> summary()
+
+model_RC1a$fit |> stan_trace()
+
+model_RC1a$fit |> stan_ac()
+
+model_RC1a$fit |> stan_rhat()
+
+model_RC1a$fit |> stan_ess()
+
+model_RC1a |> pp_check(type = "dens_overlay", ndraws = 100)
+
+resids <- model_RC1a |> make_brms_dharma_res(integerResponse = FALSE)
+
+testUniformity(resids)
+
+plotResiduals(resids, form = factor(rep(1, nrow(Q6.All_Data2))))
+
+plotResiduals(resids)
+
+testDispersion(resids)
+
+
+model_RC1a |> emmeans(~ site_management, type = "response")
+
+model_RC1a  |> emmeans(~ site_management, type = "response") |>
+  pairs()
+
+model_RC1a  |> 
+  emmeans(~site_management) |> 
+  regrid() |> 
+  pairs() |> 
+  gather_emmeans_draws() |> 
+  ggplot(aes(x = .value, y = contrast)) +
+  stat_halfeye(aes(fill = after_stat(level)), .width = c(0.66, 0.95, 1)) +
+  scale_fill_brewer() +
+  geom_vline(xintercept = 0, linetype = "dashed")
+
+
 
 

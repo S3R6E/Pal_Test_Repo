@@ -40,6 +40,14 @@ library(tidybayes)
 library(DHARMa)
 library(emmeans)
 library(patchwork)
+<<<<<<< HEAD
+=======
+library(rnaturalearth)
+library(sf)
+library(ggspatial)
+
+
+>>>>>>> 74cc0fd6b104e74e8ec575966264556afab6fff9
 
 form <- bf(spp_rich ~ Year + (1 | Site),
            family = poisson(link = "log"))
@@ -57,7 +65,11 @@ model2 <- brm(form,
               iter = 2000,
               warmup = 1000,
               thin = 10,
+<<<<<<< HEAD
               sample_prior = "yes",
+=======
+              sample_prior = "Yes",
+>>>>>>> 74cc0fd6b104e74e8ec575966264556afab6fff9
               backend = "rstan")
 
 model2 |> conditional_effects() |> plot()
@@ -87,3 +99,60 @@ plotResiduals(resids)
 testDispersion(resids)
 
 summary(model2)
+<<<<<<< HEAD
+=======
+
+model2 |> emmeans(~ spp_rich, type = "response")
+
+model2 |> emmeans(~ tourist_access, type = "response") |>
+  pairs()
+
+model2 |> 
+  emmeans(~tourist_access) |> 
+  regrid() |> 
+  pairs() |> 
+  gather_emmeans_draws() |> 
+  ggplot(aes(x = .value, y = contrast)) +
+  stat_halfeye(aes(fill = after_stat(level)), .width = c(0.66, 0.95, 1)) +
+  scale_fill_brewer() +
+  geom_vline(xintercept = 0, linetype = "dashed")
+
+
+plot1 <-all_data |> 
+  group_by(tourist_access) |> 
+  summarise(Mean = mean(cover),
+            SD = sd(cover)) |> 
+  mutate(lower = Mean -SD,
+         upper = Mean + SD) |> 
+  ungroup() |> 
+  ggplot(aes(y = Mean, x = tourist_access)) +
+  geom_pointrange(aes(ymin=lower, ymax=upper)) +
+  scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
+  theme_classic(10)
+plot1
+
+plot2 <- all_data |>
+  group_by(Site) |>
+  summarise(Mean = mean(cover),
+            SD = sd(cover)) |>
+  mutate(lower = Mean - SD,
+         upper = Mean + SD) |>
+  ungroup() |>
+  ggplot(aes(y = Mean, x = Site)) +
+  geom_pointrange(aes(ymin=lower, ymax=upper)) +
+  scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100) +
+  theme_classic(10)
+plot2
+
+plot3 <- all_data |> ggplot() +
+  geom_boxplot(aes(x = Site, y = cover, fill = tourist_access)) +
+  ggtitle("Hard Coral Cover") +
+  theme(axis.text.x = element_text(angle=30, hjust = 1))
+
+
+ggsave(plot3, file = "../outputs/figures/tourist_access_plot3.png",
+       width = 20, height = 10, units = "cm",
+       dpi=300)
+
+
+>>>>>>> 74cc0fd6b104e74e8ec575966264556afab6fff9
