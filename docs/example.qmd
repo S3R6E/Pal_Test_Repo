@@ -1,0 +1,106 @@
+---
+title: "Put your title here"
+author: "Put your name here"
+date: today
+date-format: "DD/MM/YYYY"
+format: 
+  html:
+    ## Format
+    theme: spacelab
+    html-math-method: mathjax
+    ## Table of contents
+    toc: true
+    toc-float: true
+    ## Numbering
+    number-sections: true
+    number-depth: 3
+    ## Layout
+    fig-caption-location: "bottom"
+    fig-align: "center"
+    fig-width: 4
+    fig-height: 4
+    fig-dpi: 72
+    tbl-cap-location: top
+    ## Code
+    code-fold: false
+    code-tools: true
+    code-summary: "Show the code"
+    code-line-numbers: true
+    code-block-border-left: "#ccc"
+    highlight-style: zenburn
+    ## Execution
+    execute:
+      echo: true
+      cache: false
+    ## Rendering
+    embed-resources: true
+crossref:
+  fig-title: '**Figure**'
+  fig-labels: arabic
+  tbl-title: '**Table**'
+  tbl-labels: arabic
+engine: knitr
+output_dir: "docs"
+fontsize: 12pt
+bibliography: references.bib
+---
+ 
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(cache.lazy = FALSE,
+                      tidy = "styler")
+options(tinytex.engine = "xelatex")
+knitr::read_chunk("../R/q2_read_data.R")
+```
+
+# Preparations
+Load the necessary libraries.  slflksjfd slksdf 
+
+```{r}
+#| label: libraries
+#| output: false
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+
+# Read in the data
+
+- read in the raw CPCe data
+
+```{r}
+#| label: read_data
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+
+
+# Exploratory data analysis
+
+Here is a quick figure.
+
+```{r}
+#| label: demo
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+data1 |>
+  group_by(`Major Category`) |> 
+  count() |> 
+  ggplot(aes(x=`Major Category`, y = n)) +
+  geom_histogram(stat="Identity")
+```
+ksdfkjsdfkj
+sdfksjdf
+
+
+

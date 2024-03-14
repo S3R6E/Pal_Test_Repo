@@ -1,6 +1,12 @@
 library(tidyverse)
 library(brms)
 library(cmdstanr)
+library(rstan)
+library(DHARMa)
+library(emmeans)
+library(tidybayes)
+
+source ("functions.R")
 
 data_rc <- read.csv("../data/primary/data-coral-cover.csv")
 labelset_rc <- read.csv("../data/primary/data-coral-cover-labelset.csv")
@@ -208,5 +214,106 @@ model_RC  |>
   stat_halfeye(aes(fill = after_stat(level)), .width = c(0.66, 0.95, 1)) +
   scale_fill_brewer() +
   geom_vline(xintercept = 0, linetype = "dashed")
+
+data_rc_cover_site <- data_rc_cover |>
+  group_by(
+    across(c(starts_with("site"),
+             survey_start_date,
+             survey_depth,
+             transect_name,
+             transect_id,
+             type,
+             GROUP
+    ))) |> 
+  summarise(COUNT = sum(COUNT),
+            TOTAL = sum(TOTAL)
+  ) |> 
+  ungroup() 
+
+
+##boxplot
+plotRC1a <- data_rc_cover_site |> 
+  filter(GROUP == "HC") |> ggplot() +
+  geom_boxplot(aes(x = site_name, y = COUNT/TOTAL, fill = site_management)) +
+  ggtitle("Hard Coral Cover") +
+  theme_bw(base_size = 16) +
+  theme(axis.text.x = element_text(angle=30, hjust = 1))
+
+plotRC1a
+
+
+formRC1a <- bf(COUNT | trials(TOTAL) ~ site_management + (1 | site_name),
+              family = beta_binomial(link = "logit"))
+
+get_prior(formRC1a, data=data_rc_cover_site)
+
+data_rc_cover_site %>% 
+  mutate(cover = COUNT/TOTAL) %>% 
+  group_by(site_management) %>% 
+  summarise(across(cover, list(mean, sd, median, sd)))
+
+qlogis(0.128)
+
+priors <- prior(normal(-1.91, 1), class = "Intercept") +
+  prior(normal(0,1), class = "b") +
+  prior(student_t(3,0,1), class = "sd")
+
+model_RC1a <- brm(formRC1a, 
+                data = data_rc_cover_site,
+                prior = priors,
+                chains = 3, cores = 3,
+                iter = 3000,
+                warmup = 1000,
+                thin = 10,
+                sample_prior = "yes",
+                control=list(adapt_delta=0.99),
+                backend = "rstan")
+
+model_RC1a |> conditional_effects() |> plot() 
+
+model_RC1a <- model_RC |> 
+  update(sample_prior = "yes")
+
+model_RC1a |> conditional_effects() |> plot()
+
+model_RC1a |> summary()
+
+model_RC1a$fit |> stan_trace()
+
+model_RC1a$fit |> stan_ac()
+
+model_RC1a$fit |> stan_rhat()
+
+model_RC1a$fit |> stan_ess()
+
+model_RC1a |> pp_check(type = "dens_overlay", ndraws = 100)
+
+resids <- model_RC1a |> make_brms_dharma_res(integerResponse = FALSE)
+
+testUniformity(resids)
+
+plotResiduals(resids, form = factor(rep(1, nrow(Q6.All_Data2))))
+
+plotResiduals(resids)
+
+testDispersion(resids)
+
+
+model_RC1a |> emmeans(~ site_management, type = "response")
+
+model_RC1a  |> emmeans(~ site_management, type = "response") |>
+  pairs()
+
+model_RC1a  |> 
+  emmeans(~site_management) |> 
+  regrid() |> 
+  pairs() |> 
+  gather_emmeans_draws() |> 
+  ggplot(aes(x = .value, y = contrast)) +
+  stat_halfeye(aes(fill = after_stat(level)), .width = c(0.66, 0.95, 1)) +
+  scale_fill_brewer() +
+  geom_vline(xintercept = 0, linetype = "dashed")
+
+
 
 
