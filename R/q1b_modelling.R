@@ -127,15 +127,15 @@ res.proj <- model1 |>
   #regrid() |> 
   pairs() |> 
   gather_emmeans_draws() |>
-  mutate(.value=exp(.value), .value=.value-1) |> 
+  mutate(.value=exp(.value)) |> 
   ungroup() |> 
   group_by(f.project) |> 
   summarise(median_hdci(.value),
-            Pl = mean(.value < 0), #under-estimation
-            Pg = mean(.value > 0), #over-estimation
-            Px = mean(.value > -0.1 & .value < 0.1)
+            Pl = mean(.value < 1), #under-estimation
+            Pg = mean(.value > 1), #over-estimation
+            Px = mean(.value > 0.9 & .value < 1.1)
   ) |> 
-  rename(Project=f.project, Difference=y, Low=ymin, High=ymax, 
+  rename(Project=f.project, OddsRatio.Different=y, Low=ymin, High=ymax, 
          Cred.Int=.width, P.under=Pl, P.over=Pg, 
          P10=Px)
 
@@ -144,15 +144,15 @@ res.avg<- model1 |>
   #regrid() |> 
   pairs() |> 
   gather_emmeans_draws() |>
-  mutate(.value=exp(.value), .value=.value-1) |> 
+  mutate(.value=exp(.value)) |> 
   ungroup() |> 
   summarise(median_hdci(.value),
-            Pl = mean(.value < 0), #under-estimation
-            Pg = mean(.value > 0), #over-estimation
-            Px = mean(.value > -0.1 & .value < 0.1)
+            Pl = mean(.value < 1), #under-estimation
+            Pg = mean(.value > 1), #over-estimation
+            Px = mean(.value > 0.9 & .value < 1.1)
   ) |> 
   mutate(Project="Average") |> 
-  rename(Difference=y, Low=ymin, High=ymax, 
+  rename(OddsRatio.Different=y, Low=ymin, High=ymax, 
          Cred.Int=.width, P.under=Pl, P.over=Pg, 
          P10=Px) |> 
   as.data.frame()
