@@ -40,11 +40,14 @@ library(tidybayes)
 library(DHARMa)
 library(emmeans)
 library(patchwork)
+<<<<<<< HEAD
+=======
 library(rnaturalearth)
 library(sf)
 library(ggspatial)
 
 
+>>>>>>> 74cc0fd6b104e74e8ec575966264556afab6fff9
 
 form <- bf(spp_rich ~ Year + (1 | Site),
            family = poisson(link = "log"))
@@ -62,7 +65,11 @@ model2 <- brm(form,
               iter = 2000,
               warmup = 1000,
               thin = 10,
+<<<<<<< HEAD
+              sample_prior = "yes",
+=======
               sample_prior = "Yes",
+>>>>>>> 74cc0fd6b104e74e8ec575966264556afab6fff9
               backend = "rstan")
 
 model2 |> conditional_effects() |> plot()
@@ -92,6 +99,8 @@ plotResiduals(resids)
 testDispersion(resids)
 
 summary(model2)
+<<<<<<< HEAD
+=======
 
 model2 |> emmeans(~ spp_rich, type = "response")
 
@@ -146,3 +155,4 @@ ggsave(plot3, file = "../outputs/figures/tourist_access_plot3.png",
        dpi=300)
 
 
+>>>>>>> 74cc0fd6b104e74e8ec575966264556afab6fff9

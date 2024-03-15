@@ -20,6 +20,12 @@ data_TT3 <- read_csv("../data/primary/Pagawanen_T3.csv")
 ##to process data, modify the graph, eliminate the columns or data that we don't need 
 ##and to add another column for tourist access to differentiate the data.
 
+<<<<<<< HEAD
+##to process data, modify the graph, eliminate the columns or data that we don't need 
+##and to add another column for tourist access to differentiate the data.
+
+=======
+>>>>>>> 74c4c9f6c8646f9f20852f088c1014927b436203
 ##transect PT1 
 
 glimpse(data_PT1)
@@ -133,6 +139,8 @@ data_T3 <- data_T3 |>
   dplyr::select(-Drive, -Folder)|>
   mutate('Tourist Access'= "yes")
 
+<<<<<<< HEAD
+=======
 
 ##data PPT1
 glimpse(data_PPT1)
@@ -231,6 +239,7 @@ data_TT3 <- data_TT3 |>
   dplyr::select(-A, -B, -Drive, -Folder)|>
   mutate('Tourist Access'= "yes")
 
+>>>>>>> 74c4c9f6c8646f9f20852f088c1014927b436203
 ##to combine all the data into one
 
 all_data <- bind_rows(data_T1,
@@ -256,7 +265,11 @@ plot1 <-all_data |>
   mutate(lower = Mean -SD,
          upper = Mean + SD) |> 
   ungroup() |> 
+<<<<<<< HEAD
+  ggplot(aes(y = Mean, x = `Tourist Access`, colour= `Tourist Access`))+
+=======
   ggplot(aes(y = Mean, x = tourist_access, colour= tourist_access))+
+>>>>>>> 74c4c9f6c8646f9f20852f088c1014927b436203
   geom_pointrange(aes(ymin=lower, ymax=upper)) +
   scale_y_continuous("Hard coral cover (%)", labels = function(x) x*100)+
   scale_colour_manual(values = c("magenta", "cyan"))+
@@ -273,6 +286,8 @@ ggsave(file = "../outputs/figures/tourist_access_plot1.png",
 ggsave(file = "../outputs/figures/tourist_access_plot1.pdf",
        width = 7, height = 5, units = "in")
 
+<<<<<<< HEAD
+=======
 ##making a model 
 
 library(tidyverse)
@@ -391,3 +406,4 @@ ggsave(plot3, file = "../outputs/figures/tourist_access_plot3.png",
        width = 20, height = 10, units = "cm",
        dpi=300)
 
+>>>>>>> 74c4c9f6c8646f9f20852f088c1014927b436203

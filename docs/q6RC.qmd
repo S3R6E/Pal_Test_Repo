@@ -1,0 +1,237 @@
+---
+title: "Q6 RC data analysis"
+author: "Q6"
+date: today
+date-format: "DD/MM/YYYY"
+format: 
+  html:
+    ## Format
+    theme: spacelab
+    html-math-method: mathjax
+    ## Table of contents
+    toc: true
+    toc-float: true
+    ## Numbering
+    number-sections: true
+    number-depth: 3
+    ## Layout
+    fig-caption-location: "bottom"
+    fig-align: "center"
+    fig-width: 8
+    fig-height: 4
+    fig-dpi: 72
+    tbl-cap-location: top
+    ## Code
+    code-fold: true
+    code-tools: true
+    code-summary: "Show the code"
+    code-line-numbers: true
+    code-block-border-left: "#ccc"
+    highlight-style: zenburn
+    ## Execution
+    execute:
+      echo: true
+      cache: false
+    ## Rendering
+    embed-resources: true
+crossref:
+  fig-title: '**Figure**'
+  fig-labels: arabic
+  tbl-title: '**Table**'
+  tbl-labels: arabic
+engine: knitr
+output_dir: "docs"
+fontsize: 12pt
+bibliography: references.bib
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(cache.lazy = FALSE,
+                      tidy = "styler")
+options(tinytex.engine = "xelatex")
+knitr::read_chunk("../R/Q6_RC_final.R")
+knitr::read_chunk("../R/Q6_RC.R")
+```
+
+# Preparations
+Load the necessary libraries. 
+
+```{r}
+#| label: libraries
+#| output: false
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+
+library(tidyverse)
+library(brms)
+library(rstan)
+library(DHARMa)
+library(emmeans)
+library(tidybayes)
+source("../R/functions.R")
+```
+
+Read data for data processing.
+
+```{r}
+#| label: readData
+#| echo: true
+#| eval: true
+```
+Filter dataset to remove images that have been disabled.
+
+```{r}
+#| label: filterDisabledImages
+#| echo: true
+#| eval: true
+```
+
+Pivot data longer to get machine and human classification.
+
+```{r}
+#| label: pivotLonger
+```
+
+Add transect id, transect name and year data
+
+```{r}
+#| label: addTransectInfo
+```
+
+Calculate cover based on points
+
+```{r}
+#| label: calculateCount
+```
+
+Fill in categories with 0 points
+
+```{r}
+#| label: fillDataCategories
+```
+
+Calculate cover based on all points in image
+
+```{r}
+#| label: calculateCover
+#| message: false
+```
+
+
+```{r}
+#| label: addManagement
+#| output: false
+```
+
+```{r}
+#| label: calculateSiteCover
+#| message: false
+```
+
+
+# Exploratory Data Analysis
+
+```{r}
+#| label: plot1a
+#| echo: false
+#| eval: true
+```
+
+# Modelling
+
+```{r}
+#| label: modelFormula
+```
+
+```{r}
+#| label: createPrior
+#| message: false
+```
+
+```{r}
+#| label: model
+#| eval: false
+#| echo: true
+```
+
+## Model validation
+
+```{r}
+#| label: modelSummary
+```
+
+## Pairwise Contrast
+
+```{r}
+#| label: pairWiseContrast
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+##Prepare Data for Mapping
+```{r}
+#| label: DataMapPreparation
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+##Create Inset Map
+```{r}
+#| label: createInsetMap
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+## Plot Reef Location
+
+```{r}
+#| label: plottingDiveLocations
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+```{r}
+#| label: createInsetMap
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+```
+```{r}
+#| label: LoadCitiesNames
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+```{r}
+#| label: CoordinatesPerCategory
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
+```{r}
+#| label: FinalMap
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+```
+
