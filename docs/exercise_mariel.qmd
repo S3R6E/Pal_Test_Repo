@@ -1,6 +1,6 @@
 ---
-title: "Put your title here"
-author: "Put your name here"
+title: "Mariel's Exercise"
+author: "Mariel"
 date: today
 date-format: "DD/MM/YYYY"
 format: 
@@ -44,22 +44,8 @@ output_dir: "docs"
 fontsize: 12pt
 bibliography: references.bib
 ---
- 
-```{r}
-#| label: setup
-#| include: false
 
-knitr::opts_chunk$set(cache.lazy = FALSE,
-                      tidy = "styler")
-options(tinytex.engine = "xelatex")
-knitr::read_chunk("../R/q2_read_data.R")
----
-
-```{r}
-library(tidyverse) 
-```
-
-## Quarto
+## Introduction
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
