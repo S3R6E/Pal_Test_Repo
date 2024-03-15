@@ -4,20 +4,34 @@ rm(list=ls())
 gc()
 
 ## Load libraries
+## ---- loadlibraries
 library(tidyverse)
 library(sf)
 library(rnaturalearth)
 library(ggspatial)
 library(patchwork)
 library(gridExtra)
-
+library(easystats)
+library(knitr)
+library(brms)
+library(rstan)
+library(tidybayes)
+library(patchwork)
+library(DHARMa)
+library(HDInterval)
+library(emmeans)
+library(patchwork)
 sf::sf_use_s2(FALSE)
+## ---- end
 
+## ---- loaddata
 # Load dataset and variables
 load("../data/modelled/q1c_model.RData") ## load model
 load("../data/processed/q1c_data.RData") ## load data
+## ---- end
 
 ## Figure 1: Map of Sampling Locations ####
+## ----- figure1
 # Base map
 
 coast_php <- rnaturalearth::ne_countries(
@@ -66,7 +80,7 @@ pal_map <- ggplot() +
     axis.text = element_blank(),
     panel.grid = element_blank()
   )
-pal_map
+
 
 # Zoom in on a specific area
 # survey map
@@ -82,7 +96,6 @@ sur_map <- pal_map +
   coord_sf(xlim = c(118.2, 120.5),
            ylim = c(9.3,11.3), expand = FALSE)
 
-sur_map
 
 # Create sites
 
@@ -95,30 +108,24 @@ sites<- df |>
   select(site_name, site_latitude, site_longitude, Side) |> 
   unique() 
 
-sites
-
 ## create final figure1
   
   
   sur_map <- sur_map +
   geom_point(data = sites, aes(y = site_latitude, x = site_longitude,
                                        colour = "Survey Sites"), shape = 16, size =  2) +
-  # geom_point(data = php_cities,
-  #            aes(y = latitude, x = longitude)) +
-  # geom_text(data = php_cities,
-  #           aes(y = latitude + 0.1,
-  #               x = longitude, label = name), vjust =  0) +
   scale_colour_manual("", values = c("blue"))
   
   f1 <- sur_map +
     inset_element(pal_map, left = 0.01, bottom = 0.6, right = 0.4, top = 0.99)
-f1
+## ---- end 
 
 ggsave(plot=f1, filename= "../outputs/figures/q1c_f1_surveyMap.png")
 
 
 ## Figure 2: HCC East vs West ####
 
+## ----- figure2
 newdf<- expand_grid(f.Side=c("East", "West", NA), f.year=NA,f.site_name=NA, total=1)
 
 side.draws <- posterior_epred(model1, newdata = newdf)
@@ -142,10 +149,11 @@ f2 <- pred.df |>
   labs(x="Palawan Coast", y="Hard Coral Cover (%)")+
   theme_bw() +
   theme(panel.grid=element_blank())
-f2
+## ---- end
+
 
 ggsave(plot=f2, filename= "../outputs/figures/q1c_f2_east_west.png")
-
+## ---- figure3
 ## Figure 3: Comparison over the years for Araceli ####
 a.sites<-c("WWF_Ar_Cambari",
            "WWF_Ar_Catad",
@@ -185,13 +193,13 @@ f3 <- pred.df |>
   labs(x="Typhoon Odette", y="Hard Coral Cover (%)")+
   theme_bw() +
   theme(panel.grid=element_blank())
-f3
+## ---- end
 
 ggsave(plot=f3, filename= "../outputs/figures/q1c_f3_odette.png")
 
 
 # Figure 4: Map HCC West & East ####
-
+## ----- figure4
 # Zoom in on a specific area
 # Zoom in to the West
 bbox.west<-st_bbox(sites.sf |>  filter(Side=="West") |> st_buffer(dist = 0.1))
@@ -207,7 +215,7 @@ sur_map.w <- pal_map +
                          style = north_arrow_fancy_orienteering) +
   coord_sf(xlim = c(bbox.west[1]-0.2, bbox.west[3]+0.2),
            ylim = c(bbox.west[2], bbox.west[4]), expand = FALSE)
-sur_map.w
+
 
 # Zoom in to the East South
 bbox.east<-st_bbox(sites.sf |>  filter(Side=="East") |> st_buffer(dist = 0.1))
@@ -223,7 +231,6 @@ sur_map.e.s <- pal_map +
                          style = north_arrow_fancy_orienteering) +
   coord_sf(xlim = c(bbox.east[1], 119),
            ylim = c(bbox.east[2], 10), expand = FALSE)
-sur_map.e.s
 
 
 
@@ -242,7 +249,6 @@ sur_map.e.n <- pal_map +
   coord_sf(xlim = c(119.5, 120.2),
            ylim = c(10.3, 10.8), expand = FALSE)
 
-sur_map.e.n
 # Predictions
 newdf<- df |> 
   mutate(year=year(date),f.Side=as.factor(Side), 
@@ -278,12 +284,10 @@ sur_map.w<- sur_map.w +
   geom_text(data = pred.df |> 
               filter(Side=="West"), 
             aes(y = site_latitude, x = site_longitude, label=site_name), size=2)+
+  ggtitle("A. Palawan West")+
   theme(axis.text = element_text(size=5),
-        axis.title=element_blank())
-
-# +
-#   scale_color_viridis_c(trans="log", alpha=)
-sur_map.w
+        axis.title=element_blank(),
+        legend.position = "none")
 
 
 # Map 2: HCC East South
@@ -298,13 +302,12 @@ sur_map.e.s<-sur_map.e.s +
   geom_text(data = pred.df |> 
               filter(Side=="East"), 
             aes(y = site_latitude, x = site_longitude, label=site_name), size=2)+
-  theme(axis.text = element_text(size=7),
-        axis.title=element_blank())
-
-sur_map.e.s
+  ggtitle("B. Palawan South-East")+
+  theme(axis.text = element_text(size=5),
+        axis.title=element_blank(),
+        legend.position = "none")
 
 # Map 2: HCC East North
-
 
 sur_map.e.n<-sur_map.e.n +
   geom_point(data = pred.df |> 
@@ -315,8 +318,13 @@ sur_map.e.n<-sur_map.e.n +
   geom_text(data = pred.df |> 
               filter(Side=="East"), 
             aes(y = site_latitude, x = site_longitude, label=site_name), size=2)+
-  theme(axis.text = element_text(size=7),
+  ggtitle("C. Palawan North-East")+
+  theme(axis.text = element_text(size=5),
         axis.title=element_blank())
+
+f4<-(sur_map.w+sur_map.e.s)/sur_map.e.n
+## ----- end 
+
 
 sur_map.e.n
 ggsave(sur_map.w, filename="../outputs/figures/q1c_MapHCC_West.png")
@@ -324,3 +332,14 @@ ggsave(sur_map.e.n, filename="../outputs/figures/q1c_MapHCC_East_North.png")
 ggsave(sur_map.e.s, filename="../outputs/figures/q1c_MapHCC_East_South.png")
 
 
+## ----- figure5
+f5<-pred.df |> 
+  ggplot(aes(x=site_name, y=HCC.median))+
+  geom_point(position = position_dodge(width=0.9), size=3) +
+  geom_errorbar(aes(ymin=HCC.min, ymax=HCC.max), width=0.2, linewidth=0.1) +
+  labs(x="Sites", y="Hard Coral Cover (%)")+
+  facet_wrap("Side", scales = "free_x")+
+  theme_bw() +
+  theme(panel.grid=element_blank(),
+        axis.text.x=element_text(angle = 45, hjust = 1))
+## ---- end

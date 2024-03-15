@@ -1,0 +1,262 @@
+---
+title: "Estimation of the Status of Coral Reefs in Palawan"
+author:
+  - name: Genesis Ustares
+  - name: Joel Becira
+  - name: Mark Ace dela Cruz
+date: today
+date-format: "MM/DD/YYYY"
+format: 
+  html:
+    ## Format
+    html-math-method: mathjax
+    ## Table of contents
+    toc: true
+    toc-float: true
+    ## Numbering
+    number-sections: true
+    number-depth: 3
+    ## Layout
+    fig-caption-location: "bottom"
+    fig-align: "center"
+    fig-width: 4
+    fig-height: 4
+    fig-dpi: 72
+    tbl-cap-location: top
+    ## Code
+    code-fold: false
+    code-tools: true
+    code-summary: "Show the code"
+    code-line-numbers: true
+    code-block-border-left: "#ccc"
+    highlight-style: zenburn
+    ## Execution
+    execute:
+      echo: true
+      cache: false
+    ## Rendering
+    embed-resources: true
+crossref:
+  fig-title: '**Figure**'
+  fig-labels: arabic
+  tbl-title: '**Table**'
+  tbl-labels: arabic
+engine: knitr
+output_dir: "docs"
+fontsize: 12pt
+bibliography: references.bib
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(cache.lazy = FALSE,
+                      tidy = "styler")
+options(tinytex.engine = "xelatex")
+knitr::read_chunk("../R/q1c_figures.R")
+```
+
+# Preparations
+
+Load the necessary libraries and the data.
+
+::: {.callout-note collapse="true"}
+# code to generate libraries
+
+```{r}
+#| label: loadlibraries
+#| output: false
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+:::
+
+::: {.callout-note collapse="true"}
+# code to generate data
+
+```{r}
+#| label: loaddata
+#| output: false
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+:::
+
+# Rationale
+
+In this analysis we were aimed at exploring the values of coral cover across the Palawan province using monitoring data compiled across multiple partner organisations and analysed in ReefCloud. We used Hard Coral Cover as an indicator of the state of the coral reef habitats and estimated the Hard Coral Cover across the East and West coast of Palawan.
+
+Specific Objectives: 1. Explore the difference in coral cover between the East and West coast of Palawan 2. Explore the impact of Typhoon Odette on the coral cover of Araceli, Palwan 3. Explore the spatial variability of coral cover across the province
+
+To achieve our objective we compiled monitoring data from Western Philippine University, World Wide Fund for nature, DENR, Protected Area Management Office and PCSD.
+
+@fig-Map shows the location of the surveyed sites. These sites where surveyed between 2019 and 2023.
+
+::: {.callout-note collapse="true"}
+# code to generate Figure 1 (Survey Map)
+
+```{r}
+#| label: figure1
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: true
+```
+:::
+
+```{r}
+#| label: fig-Map
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+#| fig-cap: "Map of surveyed locations"
+#| fig-width: 6
+#| fig-height: 4
+#| out-width: 80%
+f1
+```
+
+## Methodological description
+
+XXXX
+
+# Results
+
+## Objective 1. Hard Coral Cover comparison between the East and West coast
+
+Using the generalized linear regression model, we extracted the posterior estimation of hard coral cover for east and west coast of Palawan as well as the average for the province. From the posterior estimation, we calculated the median and credible intervals with a 95% confidence for coral cover. The figure below shows the results of the analysis.
+
+::: {.callout-note collapse="true"}
+# code to generate Figure 2 (East and West comparison)
+
+```{r}
+#| label: figure2
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+:::
+
+```{r}
+#| label: fig-Coast
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+#| fig-cap: "Coral cover comparison the East and West Coast of Palawan"
+#| fig-width: 6
+#| fig-height: 4
+#| out-width: 80%
+f2
+```
+
+We found out that the coral cover has high variability across the coast and province (@fig-Coast). In average the estimated coral cover for the Palawan region was 13.5% ranging between 0.06% and 68.5% (95% credible intervals). Based on the results, we have little evidence to show a difference between the east and west coast.
+
+## Objective 2. Evaluate the effect of TC Odette on coral cover in Araceli
+
+From the compiled surveys, the Municipality of Araceli was surveyed by WWF before and after the tropical cyclone Odette. Using the beta binomial generalized linear model, we estimated the expected coral values before and after the cyclone for the surveyed sites.
+
+The figure below shows the results of the comparison.
+
+::: {.callout-note collapse="true"}
+# code to generate Figure 3 (Effect of TC Odette)
+
+```{r}
+#| label: figure3
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+:::
+
+```{r}
+#| label: fig-Odette
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+#| fig-cap: "Coral cover comparison before and after TC Odette"
+#| fig-width: 6
+#| fig-height: 4
+#| out-width: 80%
+f3
+```
+
+The result shows coral cover in the Municipality of Araceli was between 25% and 47% across sites in 2021 (@fig-Odette). After TC Odette, which happen in December 2021, there is strong evidence that coral cover declined to values between 0.6% to 1.5%.
+
+## Objective 3. Explore the spatial variability of coral cover across the Palawan provice.
+
+Using the generalized linear regression model, we extracted the posterior estimation of hard coral cover across survey sites and estimated the median coral cover per site. @fig-cmap shows the spatial patterns of coral cover for each of the subregions within the Palawan province.
+
+::: {.callout-note collapse="true"}
+# code to generate Figure 4 (HCC map)
+
+```{r}
+#| label: figure4
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+:::
+
+```{r}
+#| label: fig-cmap
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+#| fig-cap: "Coral cover estimations across the Palawan province"
+#| fig-width: 8
+#| fig-height: 12
+#| out-width: 90%
+f4
+```
+
+::: {.callout-note collapse="true"}
+# code to generate Figure 5 (HCC sites)
+```{r}
+#| label: figure5
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+:::
+
+```{r}
+#| label: fig-csites
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+#| fig-cap: "Coral cover estimations across sites in the Palawan Province grouped by coast side"
+#| fig-width: 6
+#| fig-height: 4
+#| out-width: 80%
+f5
+```
+
+Hard coral cover across Palawan have high variability (@fig-cmap). A strong evidence was found suggesting that Port Barton has the highest HCC in Palawan West sub-region (@fig-cmap,A and @fig-csites). Similarly, the analysis suggest a strong evidence that sites in the Puerto Princesa Bay channel showed the highest HCC values in Palawan South-East sub-region (@fig-cmap,B). The Palawan North-East sub-region showed the lowest values of HCC after the impact of TC Odette (@fig-cmap,C).
+
+# Discussion
+Our results in West Coast of Palawan is below 26% HCC in West Philippine Sea Bioregion based on the report of [@licuanan2019]. Likewise, below 28% HCC in Sulu Sea Bioregion for the results of Palawan East Coast.
+
+
