@@ -128,7 +128,15 @@ f1
 
 ## Methodological description
 
-XXXX
+### Data collection
+"Palawan coral reef monitoring" and "Palawan reef monitoring" ReefCloud project is a compilation of datasets from different agencies and employed different methodologies across Palawan. As such, the WPU and WWF follow the C30 methodology, the DENR (both PAMO-ENMRPA and Snake Island) followed the BMB TB No. 2019-04. This varies in number of images per transect, distance of the camera to the corals and use of camera.
+
+### Image processing
+All image datasets were uploaded to ReefCloud for image analysis where 5-fixed points were set . For "Palawan coral reef monitoring" project used the Taxonomic Amalgamation Units (TAUs) as described in [@licuanan2019] while the other project used the AIMS Tier 3 labelsets.
+
+### Data analyses 
+
+
 
 # Results
 
@@ -204,10 +212,10 @@ The result shows coral cover in the Municipality of Araceli was between 25% and 
 Using the generalized linear regression model, we extracted the posterior estimation of hard coral cover across survey sites and estimated the median coral cover per site. @fig-cmap shows the spatial patterns of coral cover for each of the subregions within the Palawan province.
 
 ::: {.callout-note collapse="true"}
-# code to generate Figure 4 (HCC map)
+# code to generate Figure 4 (HCC Category map)
 
 ```{r}
-#| label: figure4
+#| label: figure6
 #| echo: true
 #| eval: true
 #| warning: false
@@ -222,12 +230,38 @@ Using the generalized linear regression model, we extracted the posterior estima
 #| warning: false
 #| message: false
 #| cache: false
-#| fig-cap: "Coral cover estimations across the Palawan province"
+#| fig-cap: "Coral cover category across the Palawan province"
 #| fig-width: 8
 #| fig-height: 12
 #| out-width: 90%
-f4
+f6
 ```
+
+
+::: {.callout-note collapse="true"}
+# code to generate Figure 4 (HCC Category map)
+
+```{r}
+#| label: table.Cat
+#| echo: true
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+```
+:::
+
+```{r}
+#| label: tbl-cat
+#| eval: true
+#| warning: false
+#| message: false
+#| cache: false
+#| tbl-cap: "Defined coral cover categories and their estimated probabilities"
+
+kable(Pcat.df)
+```
+
 
 ::: {.callout-note collapse="true"}
 # code to generate Figure 5 (HCC sites)
