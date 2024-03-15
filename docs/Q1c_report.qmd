@@ -129,20 +129,35 @@ f1
 ## Methodological description
 
 ### Data collection
+
 "Palawan coral reef monitoring" and "Palawan reef monitoring" ReefCloud project is a compilation of datasets from different agencies and employed different methodologies across Palawan. As such, the WPU and WWF follow the C30 methodology, the DENR (both PAMO-ENMRPA and Snake Island) followed the BMB TB No. 2019-04. This varies in number of images per transect, distance of the camera to the corals and use of camera.
 
 ### Image processing
-All image datasets were uploaded to ReefCloud for image analysis where 5-fixed points were set . For "Palawan coral reef monitoring" project used the Taxonomic Amalgamation Units (TAUs) as described in [@licuanan2019] while the other project used the AIMS Tier 3 labelsets.
 
-### Data analyses 
+All image datasets were uploaded to ReefCloud for image analysis. The 5-fixed points per image dataset were annotated based on the Taxonomic Amalgamation Units (TAUs) and AIMS Tier 3 labelsets. Before exporting the datasets for data analyses, the Palawan reef monitoring project reached the 11% human annotated points with 56% accuracy score while the other project reached the 26% human annotated points with 70% accuracy score.
 
 
+### Data analyses
+
+To analayse the data and estimate the coral cover for the Palawan province we used a Beta-binomial Hierarchical Bayesian model (see equation below) that describes the coral cover as a function of the coastal front (Side), while recognising the random effect of site location (site) and survey year (year).
+
+$$
+\begin{align}
+y_{ij} &\sim{} \beta_{}Bin(\pi_{ij},n) \\
+log\left(\frac{\pi_{ij}}{1-\pi_{ij}}\right) &= \beta_0  + \beta_1side_2 + \gamma_{site} + \gamma_{year}\\
+\beta_0 &\sim{} N (0,1) \\
+\beta_1 &\sim{} N (0,1) \\
+\gamma_{site} &\sim{} t_{}(3,0,1) \\
+\gamma_{year} &\sim{} t_{}(3,0,1) \\
+\phi_{} &\sim{} \gamma_{}(1,0.1)
+\end{align} 
+$$ {#eq-model}
 
 # Results
 
 ## Objective 1. Hard Coral Cover comparison between the East and West coast
 
-Using the generalized linear regression model, we extracted the posterior estimation of hard coral cover for east and west coast of Palawan as well as the average for the province. From the posterior estimation, we calculated the median and credible intervals with a 95% confidence for coral cover. The figure below shows the results of the analysis.
+Using the Hierarchical Bayesian model, we extracted the posterior estimation of hard coral cover for east and west coast of Palawan as well as the average for the province. From the posterior estimation, we calculated the median and credible intervals with a 95% confidence for coral cover. The figure below shows the results of the analysis.
 
 ::: {.callout-note collapse="true"}
 # code to generate Figure 2 (East and West comparison)
@@ -237,7 +252,6 @@ Using the generalized linear regression model, we extracted the posterior estima
 f6
 ```
 
-
 ::: {.callout-note collapse="true"}
 # code to generate Figure 4 (HCC Category map)
 
@@ -262,9 +276,9 @@ f6
 kable(Pcat.df)
 ```
 
-
 ::: {.callout-note collapse="true"}
 # code to generate Figure 5 (HCC sites)
+
 ```{r}
 #| label: figure5
 #| echo: true
@@ -291,6 +305,7 @@ f5
 Hard coral cover across Palawan have high variability (@fig-cmap). A strong evidence was found suggesting that Port Barton has the highest HCC in Palawan West sub-region (@fig-cmap,A and @fig-csites). Similarly, the analysis suggest a strong evidence that sites in the Puerto Princesa Bay channel showed the highest HCC values in Palawan South-East sub-region (@fig-cmap,B). The Palawan North-East sub-region showed the lowest values of HCC after the impact of TC Odette (@fig-cmap,C).
 
 # Discussion
-Our results in West Coast of Palawan is below 26% HCC in West Philippine Sea Bioregion based on the report of [@licuanan2019]. Likewise, below 28% HCC in Sulu Sea Bioregion for the results of Palawan East Coast.
 
+The difference between Human and Machine is on average zero, but variable around zero and is dependent of the project. The Snake Island is less variable than the Palawan project. We are \~80% confident that the variability in Snake island is less than 10%. It is expected that the Palawan project will be more variable possibly because of the following variables: (1) Different collection methodologies across organisations such as cameras, distance from the reef, number of images per transect. (2) Variation of communities across sites within a wide geographical area. Snake island is a much smaller and homogenous area than the whole of Palawan, and (3) likely more variability between observers during the AI training in the Palawan project than the Snake Island project that have less QAQC in the Palawan project.
 
+In overall, our results in West Coast of Palawan is below 26% HCC in West Philippine Sea Bioregion based on the report of [@licuanan2019]. Likewise, below 28% HCC in Sulu Sea Bioregion for the results of Palawan East Coast.
